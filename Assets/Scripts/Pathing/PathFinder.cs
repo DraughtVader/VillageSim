@@ -10,13 +10,20 @@ namespace Pathing
         private Node startNode;
         private Node endNode;
 
+
+        public PathFinder(bool[,] map)
+        {
+            InitializeNodes(map);
+        }
+
         /// <summary>
         /// Attempts to find a path from the start location to the end location based on the supplied SearchParameters
         /// </summary>
         /// <returns>A List of Points representing the path. If no path was found, the returned list is empty.</returns>
         public List<Point> FindPath(Point startPoint, Point endPoint, bool[,] map)
         {
-            InitializeNodes(map, endPoint);
+            //InitializeNodes(map, endPoint);
+            SetupNodes(endPoint);
             startNode = nodes[startPoint.X, startPoint.Y];
             startNode.State = NodeState.Open;
             endNode = nodes[endPoint.X, endPoint.Y];
@@ -58,6 +65,31 @@ namespace Pathing
                 }
             }
         }
+        
+        private void InitializeNodes(bool[,] map)
+        {
+            width = map.GetLength(0);
+            height = map.GetLength(1);
+            nodes = new Node[width, height];
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    nodes[x, y] = new Node(x, y, map[x, y]);
+                }
+            }
+        }
+        
+        private void SetupNodes(Point endLocation)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    nodes[x, y].SetUpEndNode(endLocation);
+                }
+            }
+        }
 
         /// <summary>
         /// Attempts to find a path to the destination node using <paramref name="currentNode"/> as the starting location
@@ -96,7 +128,7 @@ namespace Pathing
         private List<Node> GetAdjacentWalkableNodes(Node fromNode)
         {
             List<Node> walkableNodes = new List<Node>();
-            IEnumerable<Point> nextLocations = GetAdjacentLocations(fromNode.Location);
+            IEnumerable<Point> nextLocations = fromNode.Adjacencies;
 
             foreach (var location in nextLocations)
             {
@@ -159,7 +191,7 @@ namespace Pathing
             };
         }
         
-        /*
+        /* no diagonals
         private static IEnumerable<Point> GetAdjacentLocationsNoDiagonals(Point fromLocation)
         {
             return new []

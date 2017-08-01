@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PathFind;
 using UnityEngine;
 
 namespace Pathing
@@ -21,42 +20,16 @@ namespace Pathing
         
         private bool[,] map;
         private PathFinder pathFinder;
-        private Grid grid;
 
         public List<Point> FindPath(Point startPoint, Point endPoint)
         {
             return pathFinder.FindPath(startPoint, endPoint, map);
         }
         
-        public List<PathFind.Point> FindPath2(PathFind.Point startPoint, PathFind.Point endPoint)
-        {
-            return Pathfinding.FindPath(grid, startPoint, endPoint);
-        }
-        
-        private void Start()
+        private void Awake()
         {
             InitializeMap();
-            pathFinder = new PathFinder();
-            grid = new Grid(width, height, map);
-        }
-
-        private void ShowRoute(List<Point> path)
-        {
-            int start = map.GetLength(1) - 1;
-            for (int y = start; y >= 0 ; y--) // Invert the Y-axis so that coordinate 0,0 is shown in the bottom-left
-            {
-                for (int x = 0; x < map.GetLength(0); x++)
-                {
-                  if (map[x, y] == false)
-                    {
-                        Instantiate(blockerPrefab, new Vector2(x, y), Quaternion.identity);
-                    }
-                    else if (path.Any(p => p.X == x && p.Y == y))
-                    {
-                        Instantiate(routeMarkerPrefab, new Vector2(x, y), Quaternion.identity);
-                    }
-                }
-            }
+            pathFinder = new PathFinder(map);
         }
 
         private void InitializeMap()

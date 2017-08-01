@@ -42,6 +42,8 @@ namespace Pathing
             get { return G + H; }
         }
 
+        public Point[] Adjacencies; 
+
         /// <summary>
         /// Gets or sets the parent node. The start node's parent is always null.
         /// </summary>
@@ -72,18 +74,31 @@ namespace Pathing
             G = 0;
         }
         
+        //If this constructor is used SetUpEndNode must be called before the node is used
         public Node(int x, int y, bool isWalkable)
         {
             Location = new Point(x, y);
-            State = NodeState.Untested;    
             IsWalkable = isWalkable;
-            G = 0;
+                            
+            Adjacencies = new[]
+            {
+                new Point(Location.X-1, Location.Y-1),
+                new Point(Location.X-1, Location.Y+1),
+                new Point(Location.X+1, Location.Y+1),
+                new Point(Location.X+1, Location.Y-1),
+                new Point(Location.X-1, Location.Y  ),
+                new Point(Location.X,   Location.Y+1),
+                new Point(Location.X+1, Location.Y  ),
+                new Point(Location.X,   Location.Y-1),
+            };
         }
 
         public void SetUpEndNode(Point endLocation)
         {
             State = NodeState.Untested;    
+            H = GetTraversalCost(Location, endLocation);
             G = 0;
+            parentNode = null;
         }
 
         public override string ToString()
