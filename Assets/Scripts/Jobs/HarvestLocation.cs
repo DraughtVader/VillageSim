@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Jobs
 {
-    public class HarvestLocation : WorldObject
+    public class HarvestLocation : RegisterWorldObject
     {
+        private Action harvestComplete;
+        
         [SerializeField]
         protected float timeToHarvest = 5.0f;
 
@@ -13,10 +17,21 @@ namespace Jobs
         [SerializeField]
         protected int numberOfCollectablesToSpawn;
 
-        private float currentHarvestTime = 0.0f;
-        protected Worker currentWorker;
+        [SerializeField]
+        protected int maxConcurrentWorkers = 2;
 
-        public bool Harvestable { get; protected set; }
+        private float currentHarvestTime;
+        private int currentNumberWorkers;
+
+        public bool Harvestable 
+        {
+            get { return currentNumberWorkers < maxConcurrentWorkers; }
+        }
+
+        public Collectable.Type CollectableType
+        {
+            get { return collectablesToSpawn.CollectableType; }
+        }
 
         public override void OnWorkerInteraction(Worker worker)
         {
@@ -26,16 +41,24 @@ namespace Jobs
 
         private void StartHarvest(Worker worker)
         {
-            currentWorker = worker;
+            if (currentNumberWorkers < maxConcurrentWorkers)
+            {
+                harvestComplete += worker.OnHarvestComplete;
+                currentNumberWorkers++;
+            }
+            else
+            {
+                //TODO
+            }
         }
 
         private void Update()
         {
-            if (currentWorker == null)
+            if (currentNumberWorkers == 0)
             {
                 return;
             }
-            currentHarvestTime += Time.deltaTime;
+            currentHarvestTime += Time.deltaTime * currentNumberWorkers;
             if (currentHarvestTime >= timeToHarvest)
             {
                 for (int i = 0; i < numberOfCollectablesToSpawn; i++)
@@ -43,10 +66,19 @@ namespace Jobs
                     Instantiate(collectablesToSpawn, transform.position + (Vector3)Random.insideUnitCircle, Quaternion.identity);
                 }
                 currentHarvestTime = 0;
-                currentWorker.HarvestComplete();
-                currentWorker = null;
-                Harvestable = false;
+
+                if (harvestComplete != null)
+                {
+                    harvestComplete();
+                }
+                harvestComplete = null;
+                currentNumberWorkers = 0;
             }
+        }
+
+        protected override void Register()
+        {
+            JobManager.instance.RegisterHarvestLocation(this);
         }
     }
 }

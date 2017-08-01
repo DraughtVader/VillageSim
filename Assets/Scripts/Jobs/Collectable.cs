@@ -2,12 +2,10 @@
 
 namespace Jobs
 {
-    public class Collectable : WorldObject
+    public class Collectable : RegisterWorldObject
     {
         [SerializeField]
         protected Type type;
-
-        private bool hasRegistered;
         
         public enum State
         {
@@ -38,7 +36,7 @@ namespace Jobs
             worker.HeldItem = this;
             CollectableState = State.Held;
             JobManager.instance.DeregisterCollectable(this);
-            DropOffLocation = JobManager.instance.GetDropOffLocation(this);
+            DropOffLocation = JobManager.instance.GetDropOffLocation(worker);
             worker.MoveTo(DropOffLocation);
         }
 
@@ -46,20 +44,11 @@ namespace Jobs
         {
             base.Awake();
             CollectableState = State.InWorld;
-            if (JobManager.instanceExists)
-            {
-                JobManager.instance.RegisterCollectable(this);
-                hasRegistered = true;
-            }
         }
-
-        protected virtual void Start()
+        
+        protected override void Register()
         {
-            if (!hasRegistered && JobManager.instanceExists)
-            {
-                JobManager.instance.RegisterCollectable(this);
-                hasRegistered = true;
-            }
+            JobManager.instance.RegisterCollectable(this);
         }
     }
 }

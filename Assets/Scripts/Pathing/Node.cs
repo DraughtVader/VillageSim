@@ -42,7 +42,7 @@ namespace Pathing
             get { return G + H; }
         }
 
-        public Point[] Adjacencies; 
+        public Point[] Adjacencies { get; private set; }
 
         /// <summary>
         /// Gets or sets the parent node. The start node's parent is always null.

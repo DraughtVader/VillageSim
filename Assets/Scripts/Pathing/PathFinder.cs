@@ -47,24 +47,6 @@ namespace Pathing
 
             return path;
         }
-
-        /// <summary>
-        /// Builds the node grid from a simple grid of booleans indicating areas which are and aren't walkable
-        /// </summary>
-        /// <param name="map">A boolean representation of a grid in which true = walkable and false = not walkable</param>
-        private void InitializeNodes(bool[,] map, Point endLocation)
-        {
-            width = map.GetLength(0);
-            height = map.GetLength(1);
-            nodes = new Node[width, height];
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    nodes[x, y] = new Node(x, y, map[x, y], endLocation);
-                }
-            }
-        }
         
         private void InitializeNodes(bool[,] map)
         {
@@ -170,38 +152,5 @@ namespace Pathing
 
             return walkableNodes;
         }
-
-        /// <summary>
-        /// Returns the eight locations immediately adjacent (orthogonally and diagonally) to <paramref name="fromLocation"/>
-        /// </summary>
-        /// <param name="fromLocation">The location from which to return all adjacent points</param>
-        /// <returns>The locations as an IEnumerable of Points</returns>
-        private static IEnumerable<Point> GetAdjacentLocations(Point fromLocation)
-        {
-            return new[]
-            {
-                new Point(fromLocation.X-1, fromLocation.Y-1),
-                new Point(fromLocation.X-1, fromLocation.Y  ),
-                new Point(fromLocation.X-1, fromLocation.Y+1),
-                new Point(fromLocation.X,   fromLocation.Y+1),
-                new Point(fromLocation.X+1, fromLocation.Y+1),
-                new Point(fromLocation.X+1, fromLocation.Y  ),
-                new Point(fromLocation.X+1, fromLocation.Y-1),
-                new Point(fromLocation.X,   fromLocation.Y-1)
-            };
-        }
-        
-        /* no diagonals
-        private static IEnumerable<Point> GetAdjacentLocationsNoDiagonals(Point fromLocation)
-        {
-            return new []
-            {
-                new Point(fromLocation.X-1, fromLocation.Y  ),
-                new Point(fromLocation.X,   fromLocation.Y+1),
-                new Point(fromLocation.X+1, fromLocation.Y  ),
-                new Point(fromLocation.X,   fromLocation.Y-1)
-            };
-        }
-        */
     }
 }

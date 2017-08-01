@@ -1,12 +1,11 @@
-﻿using System;
-using System.Security.Cryptography;
-using Pathing;
+﻿using Pathing;
+using UnityEngine;
 
 namespace Jobs
 {
     public class Worker : Agent
     {
-        public Job.Type JobType { get; protected set; }
+        public Job.Type JobType{ get; protected set; }
 
         public Collectable HeldItem { get; set; }
 
@@ -23,7 +22,7 @@ namespace Jobs
             }
         }
         
-        public void HarvestComplete()
+        public void OnHarvestComplete()
         {
             AskForJob();
         }
@@ -48,8 +47,17 @@ namespace Jobs
 
         protected void Start()
         {
-            JobType = Job.Type.Lumberjack;
+            JobType = Job.Type.Forager;
             AskForJob();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                AskForJob();
+            }
         }
     }
 }
