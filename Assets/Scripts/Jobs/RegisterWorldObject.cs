@@ -23,6 +23,7 @@
             }
         }
 
+        public abstract bool IsAvailableToWorker(Worker worker);
         protected abstract void Register();
     }
 }

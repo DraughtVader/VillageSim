@@ -5,7 +5,7 @@ namespace Jobs
 {
     public class Worker : Agent
     {
-        public Job.Type JobType{ get; protected set; }
+        public Job.Type JobType{ get; set; }
 
         public Collectable HeldItem { get; set; }
 
@@ -47,8 +47,7 @@ namespace Jobs
 
         protected void Start()
         {
-            JobType = Job.Type.Forager;
-            AskForJob();
+            JobType = Job.Type.Idle;
         }
 
         protected override void Update()

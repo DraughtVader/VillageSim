@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Core.Utilities;
+using UI;
 using UnityEngine;
 
 namespace Jobs
 {
 	public class JobManager : Singleton<JobManager>
 	{
+		[SerializeField]
+		protected List<Job> jobs;
+
+		[SerializeField]
+		protected WorkerManagementUi workerManagementUi;
+		
 		protected Dictionary<Collectable.Type, List<Collectable>> collectables = new Dictionary<Collectable.Type, List<Collectable>>();
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();
 		protected Dictionary<Collectable.Type, List<DropOffLocation>> dropOffLocations = new Dictionary<Collectable.Type, List<DropOffLocation>>();
@@ -62,13 +68,32 @@ namespace Jobs
 
 		public DropOffLocation GetDropOffLocation(Worker worker)
 		{
-			return GetAvailableDropOffLocation(worker .HeldItem.CollectableType, worker.transform.position);
+			return GetAvailable(worker, dropOffLocations, worker.HeldItem.CollectableType);
 		}
 		
 		public WorldObject GetJob(Worker worker)
 		{
+			if (CanChangeJob(worker.JobType))
+			{
+				var currentJob = GetJobInfo(worker.JobType);
+				var job = GetMostDesiredJob();
+				if (job != null)
+				{
+					if (currentJob != null)
+					{
+						currentJob.CurrentWorkers--;
+					}
+					worker.JobType = job.JobType;
+					job.CurrentWorkers++;
+				}
+			}
+			
 			var collectableType = GetResourceForJob(worker.JobType);
-			var collectable = GetAvailableCollectable(collectableType, worker.transform.position);
+			if (collectableType == Collectable.Type.None)
+			{
+				return null;
+			}
+			var collectable = GetAvailable(worker, collectables, collectableType);
 			if (collectable != null)
 			{
 				collectable.CollectableState = Collectable.State.Targeted;
@@ -76,7 +101,7 @@ namespace Jobs
 			}
 			else
 			{
-				var harvestLocation = GetAvailableHarvestLocation(collectableType, worker.transform.position);
+				var harvestLocation = GetAvailable(worker, harvestLocations, collectableType);
 				if (harvestLocation != null)
 				{
 					return harvestLocation;
@@ -85,7 +110,50 @@ namespace Jobs
 			return null;
 		}
 
-		private Collectable.Type GetResourceForJob(Job.Type jobType)
+		private bool CanChangeJob(Job.Type currentJob)
+		{
+			Job current = GetJobInfo(currentJob);
+			if (current == null)
+			{
+				return true;
+			}
+			return current.DesiredWorkers <= current.CurrentWorkers;
+		}
+
+		private Job GetMostDesiredJob()
+		{
+			int requirement = 0;
+			Job mostRequired = null;
+			foreach (var job in jobs)
+			{
+				int currentRequirement = job.DesiredWorkers - job.CurrentWorkers;
+				if (currentRequirement > requirement)
+				{
+					requirement = currentRequirement;
+					mostRequired = job;
+				}
+			}
+			return mostRequired;
+		}
+
+		private void Start()
+		{
+			workerManagementUi.SetUp(jobs);
+		}
+
+		private Job GetJobInfo(Job.Type type)
+		{
+			foreach (var job in jobs)
+			{
+				if (job.JobType == type)
+				{
+					return job;
+				}
+			}
+			return null;
+		}
+
+		public static Collectable.Type GetResourceForJob(Job.Type jobType)
 		{
 			switch (jobType)
 			{
@@ -94,80 +162,34 @@ namespace Jobs
 				case Job.Type.Forager:
 					return Collectable.Type.Food;
 				default:
-					throw new ArgumentOutOfRangeException("jobType", jobType, null);
+					return Collectable.Type.None;
 			}
 		}
 
-		private Collectable GetAvailableCollectable(Collectable.Type type, Vector3 position)
+		private static T GetAvailable<T>(Worker worker, Dictionary<Collectable.Type, List<T>> dictionary, Collectable.Type collectableType) where T : RegisterWorldObject 
 		{
-			if (collectables.ContainsKey(type))
+			if (!dictionary.ContainsKey(collectableType))
 			{
-				Collectable closest = null;
-				float cloestDistance = float.MaxValue;
-				foreach (var collectable in collectables[type])
-				{
-					if (collectable.CollectableState != Collectable.State.InWorld)
-					{
-						continue;
-					}
-					float currentDisstance = Vector3.Distance(collectable.transform.position, position);
-					if (currentDisstance < cloestDistance)
-					{
-						closest = collectable;
-						cloestDistance = currentDisstance;
-					}
-				}
-				return closest;
+				return null;
 			}
-			return null;
-		}
-		
-		private HarvestLocation GetAvailableHarvestLocation(Collectable.Type type, Vector3 position)
-		{
-			if (harvestLocations.ContainsKey(type))
+			var list = dictionary[collectableType];
+			
+			T closest = null;
+			var closestDistance = float.MaxValue;
+			foreach (var t in list)
 			{
-				HarvestLocation closest = null;
-				float cloestDistance = float.MaxValue;
-				foreach (var harvestLocation in harvestLocations[type])
+				if (!t.IsAvailableToWorker(worker))
 				{
-					if (!harvestLocation.Harvestable)
-					{
-						continue;
-					}
-					float currentDisstance = Vector3.Distance(harvestLocation.transform.position, position);
-					if (currentDisstance < cloestDistance)
-					{
-						closest = harvestLocation;
-						cloestDistance = currentDisstance;
-					}
+					continue;
 				}
-				return closest;
-			}
-			return null;
-		}
-		
-		private DropOffLocation GetAvailableDropOffLocation(Collectable.Type type, Vector3 position)
-		{
-			if (dropOffLocations.ContainsKey(type))
-			{
-				DropOffLocation closest = null;
-				float cloestDistance = float.MaxValue;
-				foreach (var dropOffLocation in dropOffLocations[type])
+				float currentDisstance = Vector3.Distance(t.transform.position, worker.transform.position);
+				if (currentDisstance < closestDistance)
 				{
-					if (dropOffLocation.CollectableType != type)
-					{
-						continue;
-					}
-					float currentDisstance = Vector3.Distance(dropOffLocation.transform.position, position);
-					if (currentDisstance < cloestDistance)
-					{
-						closest = dropOffLocation;
-						cloestDistance = currentDisstance;
-					}
+					closest = t;
+					closestDistance = currentDisstance;
 				}
-				return closest;
 			}
-			return null;
+			return closest;
 		}
 	}
 }	

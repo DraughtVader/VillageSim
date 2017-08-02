@@ -18,7 +18,8 @@ namespace Jobs
         {
             Wood,
             Food,
-            Special
+            Special,
+            None
         }
         
         public DropOffLocation DropOffLocation { get; set; }
@@ -45,7 +46,12 @@ namespace Jobs
             base.Awake();
             CollectableState = State.InWorld;
         }
-        
+
+        public override bool IsAvailableToWorker(Worker worker)
+        {
+            return CollectableState == State.InWorld;
+        }
+
         protected override void Register()
         {
             JobManager.instance.RegisterCollectable(this);

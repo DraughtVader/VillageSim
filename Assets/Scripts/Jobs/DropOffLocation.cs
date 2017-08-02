@@ -25,6 +25,12 @@ namespace Jobs
             Destroy(collectable.gameObject);
         }
 
+
+        public override bool IsAvailableToWorker(Worker worker)
+        {
+            return CollectableType == worker.HeldItem.CollectableType;
+        }
+
         protected override void Register()
         {
             JobManager.instance.RegisterDropOffLocation(this);
