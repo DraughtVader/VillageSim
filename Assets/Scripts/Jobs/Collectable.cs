@@ -25,7 +25,7 @@ namespace Jobs
         public DropOffLocation DropOffLocation { get; set; }
         public State CollectableState { get; set; }
 
-        public Type CollectableType
+        public override Type CollectableType
         {
             get { return type; }
         }
@@ -33,12 +33,9 @@ namespace Jobs
         public override void OnWorkerInteraction(Worker worker)
         {
             base.OnWorkerInteraction(worker);
-            transform.SetParent(worker.transform);
-            worker.HeldItem = this;
             CollectableState = State.Held;
-            JobManager.instance.DeregisterCollectable(this);
-            DropOffLocation = JobManager.instance.GetDropOffLocation(worker);
-            worker.MoveTo(DropOffLocation);
+            JobManager.instance.Deregister(this, CollectableType);
+            worker.PickUpItem(this);
         }
 
         protected override void Awake()
@@ -50,11 +47,6 @@ namespace Jobs
         public override bool IsAvailableToWorker(Worker worker)
         {
             return CollectableState == State.InWorld;
-        }
-
-        protected override void Register()
-        {
-            JobManager.instance.RegisterCollectable(this);
         }
     }
 }

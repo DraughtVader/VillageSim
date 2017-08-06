@@ -2,8 +2,9 @@
 {
     public abstract class RegisterWorldObject : WorldObject
     {
-        private bool hasRegistered;
-        
+        protected bool hasRegistered;
+        public abstract Collectable.Type CollectableType { get; }
+
         protected override void Awake()
         {
             base.Awake();
@@ -24,6 +25,10 @@
         }
 
         public abstract bool IsAvailableToWorker(Worker worker);
-        protected abstract void Register();
+
+        protected void Register()
+        {
+            JobManager.instance.Register(this, CollectableType);
+        }
     }
 }

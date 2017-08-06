@@ -11,8 +11,14 @@ namespace Jobs
         {
             Lumberjack,
             Forager,
-            Recuperation,
             Idle
+        }
+
+        public enum State
+        {
+            Working,
+            Recuperation,
+            NoWork
         }
 
         [SerializeField]

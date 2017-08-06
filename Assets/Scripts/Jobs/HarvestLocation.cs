@@ -23,7 +23,7 @@ namespace Jobs
         private float currentHarvestTime;
         private int currentNumberWorkers;
         
-        public Collectable.Type CollectableType
+        public override  Collectable.Type CollectableType
         {
             get { return collectablesToSpawn.CollectableType; }
         }
@@ -74,11 +74,6 @@ namespace Jobs
         public override bool IsAvailableToWorker(Worker worker)
         {
             return currentNumberWorkers < maxConcurrentWorkers;
-        }
-
-        protected override void Register()
-        {
-            JobManager.instance.RegisterHarvestLocation(this);
         }
     }
 }

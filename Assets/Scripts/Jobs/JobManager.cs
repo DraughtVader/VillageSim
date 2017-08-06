@@ -16,36 +16,62 @@ namespace Jobs
 		protected Dictionary<Collectable.Type, List<Collectable>> collectables = new Dictionary<Collectable.Type, List<Collectable>>();
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();
 		protected Dictionary<Collectable.Type, List<DropOffLocation>> dropOffLocations = new Dictionary<Collectable.Type, List<DropOffLocation>>();
+		protected Dictionary<Collectable.Type, List<PickUpLocation>> pickUpLocations = new Dictionary<Collectable.Type, List<PickUpLocation>>();
+		
+		public void Register(RegisterWorldObject registerable, Collectable.Type type)
+		{
+			var collectable = registerable as Collectable;
+			if (collectable != null)
+			{
+				RegisterWorldObject(collectable, collectables, type);
+				return;
+			}
+			var harvesteLocation = registerable as HarvestLocation;
+			if (harvesteLocation != null)
+			{
+				RegisterWorldObject(harvesteLocation, harvestLocations, type);
+				return;
+			}
+			var dropoffLocation = registerable as DropOffLocation;
+			if (dropoffLocation != null)
+			{
+				RegisterWorldObject(dropoffLocation, dropOffLocations, type);
+				return;
+			}
+			var pickupLocation = registerable as PickUpLocation;
+			if (pickupLocation != null)
+			{
+				RegisterWorldObject(pickupLocation, pickUpLocations, type);
+			}
+		}
+		
+		public void Deregister(RegisterWorldObject registerable, Collectable.Type type)
+		{
+			var collectable = registerable as Collectable;
+			if (collectable != null)
+			{
+				DeregisterWorldObject(collectable, collectables, type);
+				return;
+			}
+			var harvesteLocation = registerable as HarvestLocation;
+			if (harvesteLocation != null)
+			{
+				DeregisterWorldObject(harvesteLocation, harvestLocations, type);
+				return;
+			}
+			var dropoffLocation = registerable as DropOffLocation;
+			if (dropoffLocation != null)
+			{
+				DeregisterWorldObject(dropoffLocation, dropOffLocations, type);
+				return;
+			}
+			var pickupLocation = registerable as PickUpLocation;
+			if (pickupLocation != null)
+			{
+				DeregisterWorldObject(pickupLocation, pickUpLocations, type);
+			}
+		}
 
-		public void RegisterCollectable(Collectable collectable)
-		{
-			RegisterWorldObject(collectable, collectables, collectable.CollectableType);
-		}
-		
-		public void DeregisterCollectable(Collectable collectable)
-		{
-			DeregisterWorldObject(collectable, collectables, collectable.CollectableType);
-		}
-		
-		public void RegisterHarvestLocation(HarvestLocation harvestLocation)
-		{
-			RegisterWorldObject(harvestLocation, harvestLocations, harvestLocation.CollectableType);
-		}
-		
-		public void DeregisterHarvestLocation(HarvestLocation harvestLocation)
-		{
-			DeregisterWorldObject(harvestLocation, harvestLocations, harvestLocation.CollectableType);
-		}
-		
-		public void RegisterDropOffLocation(DropOffLocation dropOffLocation)
-		{
-			RegisterWorldObject(dropOffLocation, dropOffLocations, dropOffLocation.CollectableType);
-		}
-		
-		public void DeregisterrDropOffLocation(DropOffLocation dropOffLocation)
-		{
-			DeregisterWorldObject(dropOffLocation, dropOffLocations, dropOffLocation.CollectableType);
-		}
 
 		protected void RegisterWorldObject<T>(T worldObject, Dictionary<Collectable.Type, List<T>> dictionary, Collectable.Type collectableType)
 			where T : WorldObject
@@ -66,9 +92,21 @@ namespace Jobs
 			}
 		}
 
-		public DropOffLocation GetDropOffLocation(Worker worker)
+		public DropOffLocation GetDropOffLocation(Worker worker, Collectable.Type type)
 		{
-			return GetAvailable(worker, dropOffLocations, worker.HeldItem.CollectableType);
+			return GetAvailable(worker, dropOffLocations, type);
+		}
+		
+		public WorldObject GetCollectableOrPickUpLocation(Worker worker, Collectable.Type type)
+		{
+			// find collectable
+			var collectable = GetAvailable(worker, collectables, type); 
+			if (collectable != null)
+			{
+				return collectable;
+			}
+			// no collectable, get pickup. Could be null.
+			return GetAvailable(worker, pickUpLocations, type);
 		}
 		
 		public WorldObject GetJob(Worker worker)
@@ -166,7 +204,8 @@ namespace Jobs
 			}
 		}
 
-		private static T GetAvailable<T>(Worker worker, Dictionary<Collectable.Type, List<T>> dictionary, Collectable.Type collectableType) where T : RegisterWorldObject 
+		private static T GetAvailable<T>(Worker worker, Dictionary<Collectable.Type, List<T>> dictionary, Collectable.Type collectableType) 
+			where T : RegisterWorldObject 
 		{
 			if (!dictionary.ContainsKey(collectableType))
 			{

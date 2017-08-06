@@ -7,7 +7,10 @@ namespace Jobs
         [SerializeField]
         protected Collectable.Type collectableType;
 
-        public Collectable.Type CollectableType
+        [SerializeField]
+        protected PickUpLocation pickUpLocation;
+
+        public override Collectable.Type CollectableType
         {
             get { return collectableType; }
         }
@@ -29,11 +32,6 @@ namespace Jobs
         public override bool IsAvailableToWorker(Worker worker)
         {
             return CollectableType == worker.HeldItem.CollectableType;
-        }
-
-        protected override void Register()
-        {
-            JobManager.instance.RegisterDropOffLocation(this);
         }
     }
 }
