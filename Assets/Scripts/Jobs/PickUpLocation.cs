@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Resources;
+using UnityEngine;
 
 namespace Jobs
 {
@@ -7,16 +8,11 @@ namespace Jobs
         [SerializeField]
         protected Collectable collectablePrefab;
 
-        protected int currnetInventory = 0;
-
-        public void InventoryAdded(int number)
-        {
-            currnetInventory += number;
-        }
+        protected Resource resource;
         
         public void InventoryRemoved(int number)
         {
-            currnetInventory -= number;
+            resource.Amount -= number;
         }
 
         public override Collectable.Type CollectableType
@@ -26,17 +22,23 @@ namespace Jobs
 
         public override bool IsAvailableToWorker(Worker worker)
         {
-            return currnetInventory > 0;
+            return resource.Amount > 0;
         }
 
         public override void OnWorkerInteraction(Worker worker)
         {
-            if (currnetInventory > 0)
+            if (resource.Amount > 0)
             {
                 var collectable = Instantiate(collectablePrefab, worker.transform);
-                currnetInventory--;
+                resource.Amount--;
                 worker.PickUpItem(collectable);
             }
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            resource = ResourceManager.instance.GetResource(collectablePrefab.CollectableType);
         }
     }
 }

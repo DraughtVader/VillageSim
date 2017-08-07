@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Resources;
+using UnityEngine;
 
 namespace Jobs
 {
@@ -9,6 +10,8 @@ namespace Jobs
 
         [SerializeField]
         protected PickUpLocation pickUpLocation;
+        
+        protected Resource resource;
 
         public override Collectable.Type CollectableType
         {
@@ -25,6 +28,7 @@ namespace Jobs
         
         public virtual void DropOff(Collectable collectable)
         {
+            resource.Amount++;
             Destroy(collectable.gameObject);
         }
 
@@ -32,6 +36,12 @@ namespace Jobs
         public override bool IsAvailableToWorker(Worker worker)
         {
             return CollectableType == worker.HeldItem.CollectableType;
+        }
+        
+        protected override void Start()
+        {
+            base.Start();
+            resource = ResourceManager.instance.GetResource(collectableType);
         }
     }
 }

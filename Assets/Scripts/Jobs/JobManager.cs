@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities;
+using Resources;
 using UI;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Jobs
 
 		[SerializeField]
 		protected WorkerManagementUi workerManagementUi;
+
 		
 		protected Dictionary<Collectable.Type, List<Collectable>> collectables = new Dictionary<Collectable.Type, List<Collectable>>();
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();

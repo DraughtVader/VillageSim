@@ -11,12 +11,6 @@ namespace Pathing
     {
         [SerializeField]
         protected int width = 10, height = 10;
-
-        [SerializeField]
-        protected GameObject startPrefab, endPrefab, blockerPrefab, routeMarkerPrefab;
-
-        [SerializeField]
-        protected List<Point> barriers;
         
         private bool[,] map;
         private PathFinder pathFinder;
@@ -41,12 +35,6 @@ namespace Pathing
                 {
                     map[x, y] = true;
                 }
-            }
-
-            foreach (var barrier in barriers)
-            {
-                map[barrier.X, barrier.Y] = false;
-                Instantiate(blockerPrefab, new Vector2(barrier.X, barrier.Y), Quaternion.identity);
             }
         }
 

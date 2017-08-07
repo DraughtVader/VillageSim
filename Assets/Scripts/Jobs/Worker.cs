@@ -1,11 +1,18 @@
-﻿using System;
-using Pathing;
+﻿using Pathing;
+using Resources;
 using UnityEngine;
 
 namespace Jobs
 {
     public class Worker : Agent
     {
+        [SerializeField]
+        protected GameObject needObject,
+            needUnavailableSprite;
+
+        [SerializeField]
+        protected SpriteRenderer needSprite;
+        
         public Job.Type JobType { get; set; }
         
         public Job.State JobState { get; set; }
@@ -47,7 +54,8 @@ namespace Jobs
         public void PickUpItem(Collectable item)
         {
             HeldItem = item;
-
+            item.CollectableState = Collectable.State.Held;
+            
             switch (JobState)
             {
                 case Job.State.Working:
@@ -60,6 +68,7 @@ namespace Jobs
                     // consume for recuperatin
                     Destroy(item.gameObject);
                     food += 100;
+                    needObject.SetActive(false);
                     AskForJob();
                     break;
             }
@@ -76,18 +85,22 @@ namespace Jobs
             }
             
             //Check stats in case recuperation in required
-            if (food / maxFood < 0.1)
+            if (food / maxFood < 0.25)
             {
+                needObject.SetActive(true);
+                needSprite.sprite = ResourceManager.instance.GetResource(Collectable.Type.Food).Icon;
+                
                 JobState = Job.State.Recuperation;
                 var foodSource = JobManager.instance.GetCollectableOrPickUpLocation(this, Collectable.Type.Food);
                 if (foodSource != null)
                 {
                     MoveTo(foodSource);
+                    needUnavailableSprite.SetActive(false);
                     return;
                 }
                 else
                 {
-                    //TODO handle this, let player know of shorage
+                    needUnavailableSprite.SetActive(true);
                 }
             }
             
