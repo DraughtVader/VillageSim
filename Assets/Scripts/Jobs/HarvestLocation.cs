@@ -22,6 +22,12 @@ namespace Jobs
 
         private float currentHarvestTime;
         private int currentNumberWorkers;
+        private int workersEnRoute;
+
+        public void AddWorkerEnRouter()
+        {
+            workersEnRoute++;
+        }
         
         public override  Collectable.Type CollectableType
         {
@@ -40,6 +46,7 @@ namespace Jobs
             {
                 harvestComplete += worker.OnHarvestComplete;
                 currentNumberWorkers++;
+                workersEnRoute--;
             }
             else
             {
@@ -73,7 +80,7 @@ namespace Jobs
 
         public override bool IsAvailableToWorker(Worker worker)
         {
-            return currentNumberWorkers < maxConcurrentWorkers;
+            return (currentNumberWorkers + workersEnRoute) < maxConcurrentWorkers;
         }
     }
 }

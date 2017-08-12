@@ -28,7 +28,7 @@ namespace Jobs
         
         public virtual void DropOff(Collectable collectable)
         {
-            resource.Amount++;
+            ResourceManager.instance.DropOffResource(resource, transform.position);
             Destroy(collectable.gameObject);
         }
 

@@ -11,6 +11,7 @@ namespace Jobs
         {
             Lumberjack,
             Forager,
+            StoneMiner,
             Idle
         }
 
@@ -24,6 +25,9 @@ namespace Jobs
         [SerializeField]
         protected Type type;
 
+        [SerializeField]
+        protected Sprite rightArmTool;
+
         private int currentWorkers;
         private int desiredWorkers;
 
@@ -33,6 +37,11 @@ namespace Jobs
         }
 
         public JobItemUI JobItemUi { get; set; }
+        
+        public Sprite RightArmTool
+        {
+            get { return rightArmTool; }
+        }
 
         public int CurrentWorkers
         {

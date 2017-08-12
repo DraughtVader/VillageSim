@@ -14,14 +14,29 @@ namespace Resources
 		[SerializeField]
 		protected ResourceManagementUi resourceManagementUi;
 
-		public void DropOffResource(Collectable.Type type)
+		[SerializeField]
+		protected ResourceChangeDisplay resourceChangeDisplayPrefab;
+
+		public void DropOffResource(Collectable.Type type, Vector3 location)
 		{
-			GetResource(type).Amount++;
+			DropOffResource(GetResource(type), location);
 		}
 		
-		public void TakeResource(Collectable.Type type)
+		public void DropOffResource(Resource resource, Vector3 location)
 		{
-			GetResource(type).Amount--;
+			InitResourceChangeDisplay(resource, 1, location);
+			resource.Amount++;
+		}
+		
+		public void TakeResource(Collectable.Type type, Vector3 location)
+		{
+			TakeResource(GetResource(type), location);
+		}
+		
+		public void TakeResource(Resource resource, Vector3 location)
+		{
+			InitResourceChangeDisplay(resource, -1, location);
+			resource.Amount--;
 		}
 		
 		public Resource GetResource(Collectable.Type type)
@@ -39,6 +54,12 @@ namespace Resources
 		private void Start()
 		{
 			resourceManagementUi.SetUp(resources);
+		}
+
+		private void InitResourceChangeDisplay(Resource resource, int change, Vector3 position)
+		{
+			var info = Instantiate(resourceChangeDisplayPrefab, position, Quaternion.identity);
+			info.SetUp(resource.Icon, change);
 		}
 	}
 }

@@ -18,6 +18,7 @@ namespace Jobs
         {
             Wood,
             Food,
+            Stone,
             Special,
             None
         }

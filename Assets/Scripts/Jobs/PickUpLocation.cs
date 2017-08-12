@@ -30,7 +30,7 @@ namespace Jobs
             if (resource.Amount > 0)
             {
                 var collectable = Instantiate(collectablePrefab, worker.transform);
-                resource.Amount--;
+                ResourceManager.instance.TakeResource(resource, transform.position);
                 worker.PickUpItem(collectable);
             }
         }

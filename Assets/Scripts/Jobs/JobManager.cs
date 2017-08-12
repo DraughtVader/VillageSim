@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities;
-using Resources;
 using UI;
 using UnityEngine;
 
@@ -105,6 +104,7 @@ namespace Jobs
 			var collectable = GetAvailable(worker, collectables, type); 
 			if (collectable != null)
 			{
+				collectable.CollectableState = Collectable.State.Targeted;
 				return collectable;
 			}
 			// no collectable, get pickup. Could be null.
@@ -123,7 +123,7 @@ namespace Jobs
 					{
 						currentJob.CurrentWorkers--;
 					}
-					worker.JobType = job.JobType;
+					worker.AssignJob(job);
 					job.CurrentWorkers++;
 				}
 			}
@@ -136,16 +136,22 @@ namespace Jobs
 			var collectable = GetAvailable(worker, collectables, collectableType);
 			if (collectable != null)
 			{
-				collectable.CollectableState = Collectable.State.Targeted;
-				return collectable;
-			}
-			else
-			{
-				var harvestLocation = GetAvailable(worker, harvestLocations, collectableType);
-				if (harvestLocation != null)
+				//check if worker would be able to drop off collectable first
+				var temp = worker.HeldItem;
+				worker.HeldItem = collectable;
+				var dropOffLocation = GetDropOffLocation(worker, collectableType);
+				worker.HeldItem = temp;
+				if (dropOffLocation != null)
 				{
-					return harvestLocation;
+					collectable.CollectableState = Collectable.State.Targeted;
+					return collectable;
 				}
+			}
+			var harvestLocation = GetAvailable(worker, harvestLocations, collectableType);
+			if (harvestLocation != null)
+			{
+				harvestLocation.AddWorkerEnRouter();
+				return harvestLocation;
 			}
 			return null;
 		}
@@ -201,6 +207,8 @@ namespace Jobs
 					return Collectable.Type.Wood;
 				case Job.Type.Forager:
 					return Collectable.Type.Food;
+				case Job.Type.StoneMiner:
+					return Collectable.Type.Stone;
 				default:
 					return Collectable.Type.None;
 			}

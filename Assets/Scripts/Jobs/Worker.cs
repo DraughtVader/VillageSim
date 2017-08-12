@@ -11,11 +11,12 @@ namespace Jobs
             needUnavailableSprite;
 
         [SerializeField]
-        protected SpriteRenderer needSprite;
+        protected SpriteRenderer needSprite,
+            rightArmAccessory;
         
         public Job.Type JobType { get; set; }
         
-        public Job.State JobState { get; set; }
+        public Job.State JobState { get; protected set; }
 
         public Collectable HeldItem { get; set; }
 
@@ -124,7 +125,7 @@ namespace Jobs
         protected override void Update()
         {
             base.Update();
-            if (Input.GetKeyDown(KeyCode.A))
+            if ((JobState == Job.State.NoWork || JobType == Job.Type.Idle) && Input.GetKeyDown(KeyCode.A))
             {
                 AskForJob();
             }
@@ -135,6 +136,13 @@ namespace Jobs
         {
             energy -= baseEnergyDrain * Time.deltaTime;
             food -= baseFoodDrain * Time.deltaTime;
+        }
+
+        public void AssignJob(Job job)
+        {
+            JobType = job.JobType;
+            rightArmAccessory.sprite = job.RightArmTool;
+
         }
     }
 }
