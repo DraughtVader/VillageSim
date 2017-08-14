@@ -1,8 +1,8 @@
-﻿using Resources;
+﻿using VillageSim.Resources;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
 	public class FireController : MonoBehaviour, IPointerClickHandler
 	{

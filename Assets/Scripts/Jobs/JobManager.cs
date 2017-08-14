@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Buildings;
 using Core.Utilities;
-using UI;
+using VillageSim.UI;
 using UnityEngine;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
 	public class JobManager : Singleton<JobManager>
 	{
@@ -12,12 +13,17 @@ namespace Jobs
 
 		[SerializeField]
 		protected WorkerManagementUi workerManagementUi;
-
 		
 		protected Dictionary<Collectable.Type, List<Collectable>> collectables = new Dictionary<Collectable.Type, List<Collectable>>();
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();
 		protected Dictionary<Collectable.Type, List<DropOffLocation>> dropOffLocations = new Dictionary<Collectable.Type, List<DropOffLocation>>();
 		protected Dictionary<Collectable.Type, List<PickUpLocation>> pickUpLocations = new Dictionary<Collectable.Type, List<PickUpLocation>>();
+		protected List<ConstructionSite> constructionSites = new List<ConstructionSite>();
+		
+        public void OpenWorkerInfo(Worker worker)
+        {
+            workerManagementUi.OpenWorkerInfo(worker);
+        }
 		
 		public void Register(RegisterWorldObject registerable, Collectable.Type type)
 		{
@@ -37,6 +43,12 @@ namespace Jobs
 			if (dropoffLocation != null)
 			{
 				RegisterWorldObject(dropoffLocation, dropOffLocations, type);
+				return;
+			}
+			var constructionSite = registerable as ConstructionSite;
+			if (constructionSite != null)
+			{
+				constructionSites.Add(constructionSite);
 				return;
 			}
 			var pickupLocation = registerable as PickUpLocation;
@@ -64,6 +76,12 @@ namespace Jobs
 			if (dropoffLocation != null)
 			{
 				DeregisterWorldObject(dropoffLocation, dropOffLocations, type);
+				return;
+			}
+			var constructionSite = registerable as ConstructionSite;
+			if (constructionSite != null)
+			{
+				constructionSites.Remove(constructionSite);
 				return;
 			}
 			var pickupLocation = registerable as PickUpLocation;
@@ -125,6 +143,17 @@ namespace Jobs
 					}
 					worker.AssignJob(job);
 					job.CurrentWorkers++;
+				}
+			}
+
+			if (worker.JobType == Job.Type.Builder)
+			{
+				foreach (var constructionSite in constructionSites)
+				{
+					if (constructionSite.IsAvailableToWorker(worker))
+					{
+						return constructionSite;
+					}
 				}
 			}
 			

@@ -1,8 +1,8 @@
-﻿using Jobs;
+﻿using VillageSim.Jobs;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace VillageSim.UI
 {
     public class JobItemUI : MonoBehaviour
     {

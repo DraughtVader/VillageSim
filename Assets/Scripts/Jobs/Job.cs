@@ -1,8 +1,8 @@
 ﻿using System;
-using UI;
+using VillageSim.UI;
 using UnityEngine;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
     [Serializable]
     public class Job
@@ -12,6 +12,7 @@ namespace Jobs
             Lumberjack,
             Forager,
             StoneMiner,
+            Builder,
             Idle
         }
 
@@ -28,6 +29,9 @@ namespace Jobs
         [SerializeField]
         protected Sprite rightArmTool;
 
+        [SerializeField]
+        protected string animationTrigger;
+
         private int currentWorkers;
         private int desiredWorkers;
 
@@ -41,6 +45,11 @@ namespace Jobs
         public Sprite RightArmTool
         {
             get { return rightArmTool; }
+        }
+
+        public string AnimationTrigger
+        {
+            get { return animationTrigger; }
         }
 
         public int CurrentWorkers

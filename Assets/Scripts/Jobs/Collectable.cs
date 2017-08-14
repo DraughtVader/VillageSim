@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
     public class Collectable : RegisterWorldObject
     {

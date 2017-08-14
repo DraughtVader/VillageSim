@@ -54,8 +54,14 @@ MonoBehaviour:
   jobs:
   - type: 0
     rightArmTool: {fileID: 21300000, guid: 34578cab3c248ed42941fadd188de9ea, type: 3}
+    animationTrigger: RightArmSwing
   - type: 1
     rightArmTool: {fileID: 21300000, guid: 21ed7567cdaa5534db948ab7590c5bad, type: 3}
+    animationTrigger: Gather
   - type: 2
     rightArmTool: {fileID: 21300000, guid: 64b73a03b9523914eabb4bb99b708e8e, type: 3}
+    animationTrigger: RightArmSwing
+  - type: 3
+    rightArmTool: {fileID: 21300000, guid: 64b73a03b9523914eabb4bb99b708e8e, type: 3}
+    animationTrigger: RightArmSwing
   workerManagementUi: {fileID: 0}

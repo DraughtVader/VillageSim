@@ -1,4 +1,4 @@
-﻿namespace Jobs
+﻿namespace VillageSim.Jobs
 {
     public abstract class RegisterWorldObject : WorldObject
     {
@@ -26,9 +26,14 @@
 
         public abstract bool IsAvailableToWorker(Worker worker);
 
-        protected void Register()
+        protected virtual void Register()
         {
             JobManager.instance.Register(this, CollectableType);
+        }
+
+        protected virtual void OnDestroy()
+        {
+            JobManager.instance.Deregister(this, CollectableType);
         }
     }
 }

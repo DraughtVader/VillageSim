@@ -1,7 +1,7 @@
 ﻿using Pathing;
 using UnityEngine;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
     public class WorldObject : MonoBehaviour
     {

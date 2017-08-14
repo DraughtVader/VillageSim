@@ -1,10 +1,13 @@
 ﻿using Pathing;
-using Resources;
+using VillageSim.Resources;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using System;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
-    public class Worker : Agent
+    [RequireComponent(typeof(Animator))]
+    public class Worker : Agent, IPointerClickHandler
     {
         [SerializeField]
         protected GameObject needObject,
@@ -14,11 +17,6 @@ namespace Jobs
         protected SpriteRenderer needSprite,
             rightArmAccessory;
         
-        public Job.Type JobType { get; set; }
-        
-        public Job.State JobState { get; protected set; }
-
-        public Collectable HeldItem { get; set; }
 
         protected float maxEnergy = 100,
             maxFood = 100;
@@ -29,8 +27,26 @@ namespace Jobs
         protected float baseEnergyDrain = 1,
             baseFoodDrain = 2;
 
+        protected Animator animator;
+
+        protected Job currentJob;
+
+        public Job.Type JobType { get; set; }
+        
+        public Job.State JobState { get; protected set; }
+
+        public Collectable HeldItem { get; set; }
+
+        public float NormalizedFood
+        {
+            get { return food / maxFood; }
+        }
+
+        public string Name { get; protected set; }
+
         protected override void OnReachTargetPoint()
         {
+            animator.SetTrigger("Idle");
             base.OnReachTargetPoint();
             if (targetObject != null)
             {
@@ -42,7 +58,7 @@ namespace Jobs
             }
         }
         
-        public void OnHarvestComplete()
+        public void OnJobComplete()
         {
             AskForJob();
         }
@@ -68,7 +84,7 @@ namespace Jobs
                 case Job.State.NoWork:
                     // consume for recuperatin
                     Destroy(item.gameObject);
-                    food += 100;
+                    food += 50; //TODO fix this garbage
                     needObject.SetActive(false);
                     AskForJob();
                     break;
@@ -117,9 +133,22 @@ namespace Jobs
             }
         }
 
+        public override void MoveTo(WorldObject target)
+        {
+            base.MoveTo(target);
+            animator.SetTrigger("Walk");
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            animator = GetComponent<Animator>();
+        }
+
         protected void Start()
         {
             JobType = Job.Type.Idle;
+            Name = "Name: " + UnityEngine.Random.value.ToString("f2");
         }
 
         protected override void Update()
@@ -141,8 +170,18 @@ namespace Jobs
         public void AssignJob(Job job)
         {
             JobType = job.JobType;
+            currentJob = job;
             rightArmAccessory.sprite = job.RightArmTool;
+        }
 
+        public void StartJob()
+        {
+            animator.SetTrigger(currentJob.AnimationTrigger);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            JobManager.instance.OpenWorkerInfo(this);
         }
     }
 }

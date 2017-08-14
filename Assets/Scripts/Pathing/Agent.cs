@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Jobs;
+using VillageSim.Jobs;
 using UnityEngine;
 
 namespace Pathing
@@ -15,6 +15,7 @@ namespace Pathing
 		protected List<Point> path;
 
 		protected Point positionPoint;
+		protected Vector3 lastDirection;
 
 		public virtual void MoveTo(WorldObject target)
 		{
@@ -44,6 +45,14 @@ namespace Pathing
 				}
 				Vector3 direction = (path[0] - positionPoint).Normalized;
 				transform.position += direction * Time.deltaTime * moveSpeed;
+
+				if (Mathf.Sign(direction.x) != Mathf.Sign(lastDirection.x))
+				{
+					var scale = transform.localScale;
+					scale.x *= -1;
+					transform.localScale = scale;
+				}
+				lastDirection = direction;
 			}
 
 			positionPoint.X = (int)transform.position.x;

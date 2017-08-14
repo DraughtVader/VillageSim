@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace VillageSim.UI
 {
 	public class ResourceChangeDisplay : MonoBehaviour
 	{

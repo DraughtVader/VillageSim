@@ -1,8 +1,8 @@
-﻿using Jobs;
-using UI;
+﻿using VillageSim.Jobs;
+using VillageSim.UI;
 using UnityEngine;
 
-namespace Resources
+namespace VillageSim.Resources
 {
     [System.Serializable]
     public class Resource
@@ -25,7 +25,12 @@ namespace Resources
         
         public ResourceItemUi ResourceItemUi { get; set; }
         
-        private int amount;
+        protected int amount;
+
+        public virtual bool IsAvailable()
+        {
+            return amount > 0;
+        }
 
         public int Amount
         {
@@ -36,5 +41,18 @@ namespace Resources
                 ResourceItemUi.UpdateInfo();
             }
         }
+
+        public virtual string DisplayAmount()
+        {
+            return amount.ToString();
+        }
+    }
+
+    [System.Serializable]
+    public class ResourceAmount
+    {
+        public Collectable.Type Type;
+        public int Requirement;
+        public int Current;
     }
 }

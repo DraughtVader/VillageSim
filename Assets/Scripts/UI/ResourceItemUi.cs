@@ -1,9 +1,9 @@
-﻿using Jobs;
-using Resources;
+﻿using VillageSim.Jobs;
+using VillageSim.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace VillageSim.UI
 {
 	public class ResourceItemUi : MonoBehaviour
 	{
@@ -23,9 +23,9 @@ namespace UI
 			UpdateInfo();
 		}
 		
-		public void UpdateInfo()
+		public virtual void UpdateInfo()
 		{
-			text.text = resource.Amount.ToString();
-		}
+            text.text = resource.DisplayAmount();
+        }
 	}
 }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Jobs;
-using Resources;
+using VillageSim.Jobs;
+using VillageSim.Resources;
 using UnityEngine;
 
-namespace UI
+namespace VillageSim.UI
 {
     public class ResourceManagementUi : MonoBehaviour
     {
@@ -13,9 +13,9 @@ namespace UI
         [SerializeField]
         protected Transform content;
 
-        public void SetUp(List<Resource> resources)
+        public void SetUp(List<Resource> Resources)
         {
-            foreach (var resource in resources)
+            foreach (var resource in Resources)
             {
                 var item = Instantiate(resourceItemPrefab, content);
                 item.SetUp(resource);

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using Core.Utilities;
-using Jobs;
-using UI;
+using VillageSim.Jobs;
+using VillageSim.UI;
 using UnityEngine;
 
-namespace Resources
+namespace VillageSim.Resources
 {
 	public class ResourceManager : Singleton<ResourceManager> 
 	{
 		[SerializeField]
-		protected List<Resource> resources;
+		protected List<Resource> Resources;
 		
 		[SerializeField]
 		protected ResourceManagementUi resourceManagementUi;
@@ -17,14 +17,16 @@ namespace Resources
 		[SerializeField]
 		protected ResourceChangeDisplay resourceChangeDisplayPrefab;
 
-		public void DropOffResource(Collectable.Type type, Vector3 location)
+        protected IntVector2 housing;
+
+		public void DropOffResource(Collectable.Type type, Vector3 location, int number = 1)
 		{
-			DropOffResource(GetResource(type), location);
+			DropOffResource(GetResource(type), location, number);
 		}
 		
-		public void DropOffResource(Resource resource, Vector3 location)
+		public void DropOffResource(Resource resource, Vector3 location, int number = 1)
 		{
-			InitResourceChangeDisplay(resource, 1, location);
+			InitResourceChangeDisplay(resource, number, location);
 			resource.Amount++;
 		}
 		
@@ -41,7 +43,7 @@ namespace Resources
 		
 		public Resource GetResource(Collectable.Type type)
 		{
-			foreach (var resource in resources)
+			foreach (var resource in Resources)
 			{
 				if (resource.Type == type)
 				{
@@ -53,7 +55,7 @@ namespace Resources
 		
 		private void Start()
 		{
-			resourceManagementUi.SetUp(resources);
+			resourceManagementUi.SetUp(Resources);
 		}
 
 		private void InitResourceChangeDisplay(Resource resource, int change, Vector3 position)

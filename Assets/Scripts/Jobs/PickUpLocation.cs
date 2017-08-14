@@ -1,7 +1,7 @@
-﻿using Resources;
+﻿using VillageSim.Resources;
 using UnityEngine;
 
-namespace Jobs
+namespace VillageSim.Jobs
 {
     public class PickUpLocation : RegisterWorldObject
     {

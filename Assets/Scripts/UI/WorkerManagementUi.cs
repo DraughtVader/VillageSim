@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Jobs;
+using VillageSim.Jobs;
 using UnityEngine;
 
-namespace UI
+namespace VillageSim.UI
 {
 	public class WorkerManagementUi : MonoBehaviour
 	{
@@ -12,6 +12,9 @@ namespace UI
 		[SerializeField]
 		protected Transform content;
 
+        [SerializeField]
+        protected WorkerInfoDisplay workerInfoDisplay;
+
 		public void SetUp(List<Job> jobs)
 		{
 			foreach (var job in jobs)
@@ -20,5 +23,10 @@ namespace UI
 				item.SetUp(job);
 			}
 		}
+
+        public void OpenWorkerInfo(Worker worker)
+        {
+            workerInfoDisplay.OpenPanel(worker);
+        }
 	}
 }
