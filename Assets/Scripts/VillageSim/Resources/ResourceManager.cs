@@ -55,6 +55,10 @@ namespace VillageSim.Resources
 		
 		private void Start()
 		{
+			foreach (var resource in Resources)
+			{
+				resource.Amount += resource.Starting;
+			}
 			resourceManagementUi.SetUp(Resources);
 		}
 

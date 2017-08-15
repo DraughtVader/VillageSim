@@ -78,6 +78,14 @@ namespace VillageSim.Jobs
                 case Job.State.Working:
                     // drop off item
                     item.DropOffLocation = JobManager.instance.GetDropOffLocation(this, item.CollectableType);
+                    if (item.DropOffLocation == null)
+                    {
+                        item.transform.parent = null;
+                        HeldItem = null;
+                        item.CollectableState = Collectable.State.InWorld;
+                        AskForJob();
+                        return;
+                    }
                     MoveTo(item.DropOffLocation);
                     break;
                 case Job.State.Recuperation:

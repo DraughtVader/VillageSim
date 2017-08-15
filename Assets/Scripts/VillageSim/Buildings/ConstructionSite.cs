@@ -12,10 +12,37 @@ namespace Buildings
 
 		[SerializeField]
 		protected List<ResourceAmount> buildingResources;
+
+		protected List<ConstructionDropOff> dropOffs;
 		
+		/// <summary>
+		/// Returns a required resource for construction
+		/// </summary>
 		public override Collectable.Type CollectableType
 		{
-			get { return Collectable.Type.None; }
+			get
+			{
+				foreach (var buildingResource in buildingResources)
+				{
+					if (buildingResource.Current < buildingResource.Requirement)
+					{
+						return buildingResource.Type;
+					}
+				}
+				return Collectable.Type.None;
+			}
+		}
+
+		public bool RequiresResource(Collectable.Type type)
+		{
+			foreach (var buildingResource in buildingResources)
+			{
+				if (buildingResource.Type == type)
+				{
+					return buildingResource.Current < buildingResource.Requirement;
+				}
+			}
+			return false;
 		}
 
 		protected override void OnWorkComplete()
@@ -29,7 +56,7 @@ namespace Buildings
 					ResourceManager.instance.DropOffResource(buildingResource.Type, transform.position, surplus);
 				}
 			}
-			Destroy(gameObject);
+			Destroy();
 		}
 
 		public override bool IsAvailableToWorker(Worker worker)
@@ -65,11 +92,22 @@ namespace Buildings
 		protected override void Start()
 		{
 			base.Start();
+			dropOffs = new List<ConstructionDropOff>();
 			foreach (var resource in buildingResources)
 			{
 				var dropOff = gameObject.AddComponent<ConstructionDropOff>();
 				dropOff.SetUp(resource.Type, this);
+				dropOffs.Add(dropOff);
 			}
+		}
+
+		protected override void Destroy()
+		{
+			foreach (var dropOff in dropOffs)
+			{
+				JobManager.instance.Deregister(dropOff, dropOff.CollectableType);
+			}
+			base.Destroy();
 		}
 	}
 }

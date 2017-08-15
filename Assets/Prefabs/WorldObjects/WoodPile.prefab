@@ -84,6 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4855017465599500}
   - component: {fileID: 114837916204914080}
+  - component: {fileID: 114306925994897962}
   m_Layer: 0
   m_Name: WoodPile
   m_TagString: Untagged
@@ -207,8 +208,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1651158709837882}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4383127188212178}
@@ -220,6 +221,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114306925994897962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651158709837882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb6dc3161a743679d96a6aadfd03a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectablePrefab: {fileID: 114170440090453960, guid: 7fb22052bebdf9d4b86fcc5a58c4d9f6,
+    type: 2}
 --- !u!114 &114837916204914080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -232,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectableType: 0
-  pickUpLocation: {fileID: 0}
+  pickUpLocation: {fileID: 114306925994897962}
 --- !u!212 &212006434965035538
 SpriteRenderer:
   m_ObjectHideFlags: 1

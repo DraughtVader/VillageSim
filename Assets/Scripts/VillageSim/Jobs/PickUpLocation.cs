@@ -22,6 +22,10 @@ namespace VillageSim.Jobs
 
         public override bool IsAvailableToWorker(Worker worker)
         {
+            if (resource == null)
+            {
+                resource = ResourceManager.instance.GetResource(collectablePrefab.CollectableType);
+            }
             return resource.Amount > 0;
         }
 

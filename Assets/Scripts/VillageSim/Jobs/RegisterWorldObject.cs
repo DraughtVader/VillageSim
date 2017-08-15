@@ -31,9 +31,13 @@
             JobManager.instance.Register(this, CollectableType);
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void Destroy()
         {
-            JobManager.instance.Deregister(this, CollectableType);
+            if (JobManager.instanceExists)
+            {
+                JobManager.instance.Deregister(this, CollectableType);
+            }
+            Destroy(gameObject);
         }
     }
 }

@@ -8,11 +8,19 @@ namespace VillageSim.Resources
     public class Resource
     {
         [SerializeField]
-        protected  Collectable.Type type;
+        protected Collectable.Type type;
         
         [SerializeField]
         protected Sprite icon;
 
+        [SerializeField]
+        protected int starting;
+
+        public int Starting
+        {
+            get { return starting; }
+        }
+        
         public Collectable.Type Type
         {
             get { return type; }
@@ -37,8 +45,11 @@ namespace VillageSim.Resources
             get { return amount; }
             set
             {
-                amount = value; 
-                ResourceItemUi.UpdateInfo();
+                amount = value;
+                if (ResourceItemUi != null)
+                {
+                    ResourceItemUi.UpdateInfo();
+                }
             }
         }
 
@@ -53,6 +64,6 @@ namespace VillageSim.Resources
     {
         public Collectable.Type Type;
         public int Requirement;
-        public int Current;
+        public int Current { get; set; }
     }
 }

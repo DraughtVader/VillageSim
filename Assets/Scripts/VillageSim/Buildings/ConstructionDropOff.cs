@@ -12,7 +12,7 @@ namespace Buildings
 
         public override void DropOff(Collectable collectable)
         {
-            base.DropOff(collectable);
+            Destroy(collectable.gameObject);
             constructionSite.DropOff(collectable.CollectableType, this);
         }
 

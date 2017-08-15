@@ -113,6 +113,18 @@ namespace VillageSim.Jobs
 
 		public DropOffLocation GetDropOffLocation(Worker worker, Collectable.Type type)
 		{
+			if (worker.JobType == Job.Type.Builder)
+			{
+				foreach (var constructionSite in constructionSites)
+				{
+					if (constructionSite.RequiresResource(type))
+					{
+						return constructionSite.GetComponent<DropOffLocation>();	
+					}
+				}
+				Debug.LogError("Shits fucked");
+				return null;
+			}
 			return GetAvailable(worker, dropOffLocations, type);
 		}
 		
@@ -148,6 +160,7 @@ namespace VillageSim.Jobs
 
 			if (worker.JobType == Job.Type.Builder)
 			{
+				// try find construction site
 				foreach (var constructionSite in constructionSites)
 				{
 					if (constructionSite.IsAvailableToWorker(worker))
@@ -155,6 +168,23 @@ namespace VillageSim.Jobs
 						return constructionSite;
 					}
 				}
+				// bring resources to construction site
+				foreach (var constructionSite in constructionSites)
+				{
+					var attempted = new List<Collectable.Type>();
+					if (!attempted.Contains(constructionSite.CollectableType) && 
+					    constructionSite.CollectableType != Collectable.Type.None)
+					{
+						var resource = GetCollectableOrPickUpLocation(worker, constructionSite.CollectableType);
+						if (resource != null)
+						{
+							return resource;
+						}
+						// cache these so we dont try getting the same resource
+						attempted.Add(constructionSite.CollectableType);
+					}
+				}
+				return null;
 			}
 			
 			var collectableType = GetResourceForJob(worker.JobType);
