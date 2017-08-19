@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Buildings;
 using Core.Utilities;
 using VillageSim.UI;
 using UnityEngine;
+using VillageSim.Buildings;
 
 namespace VillageSim.Jobs
 {
@@ -147,7 +147,7 @@ namespace VillageSim.Jobs
 			{
 				var currentJob = GetJobInfo(worker.JobType);
 				var job = GetMostDesiredJob();
-				if (job != null)
+				if (job != null && job.CurrentWorkers < job.SupportedWorkers)
 				{
 					if (currentJob != null)
 					{
@@ -171,17 +171,21 @@ namespace VillageSim.Jobs
 				// bring resources to construction site
 				foreach (var constructionSite in constructionSites)
 				{
+					var list = constructionSite.RequiredResources();
 					var attempted = new List<Collectable.Type>();
-					if (!attempted.Contains(constructionSite.CollectableType) && 
-					    constructionSite.CollectableType != Collectable.Type.None)
+					foreach (var requiredResource in list)
 					{
-						var resource = GetCollectableOrPickUpLocation(worker, constructionSite.CollectableType);
-						if (resource != null)
+						if (!attempted.Contains(requiredResource) && 
+						    requiredResource != Collectable.Type.None)
 						{
-							return resource;
+							var resource = GetCollectableOrPickUpLocation(worker, requiredResource);
+							if (resource != null)
+							{
+								return resource;
+							}
+							// cache these so we dont try getting the same resource
+							attempted.Add(requiredResource);
 						}
-						// cache these so we dont try getting the same resource
-						attempted.Add(constructionSite.CollectableType);
 					}
 				}
 				return null;
@@ -244,6 +248,10 @@ namespace VillageSim.Jobs
 		private void Start()
 		{
 			workerManagementUi.SetUp(jobs);
+			foreach (var job in jobs)
+			{
+				job.SetUp();
+			}
 		}
 
 		private Job GetJobInfo(Job.Type type)

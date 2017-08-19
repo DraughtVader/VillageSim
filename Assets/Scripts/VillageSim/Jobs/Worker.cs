@@ -16,8 +16,11 @@ namespace VillageSim.Jobs
         [SerializeField]
         protected SpriteRenderer needSprite,
             rightArmAccessory;
-        
 
+        [SerializeField]
+        protected float jobQueryTime = 1.0f;
+        
+        [SerializeField]
         protected float maxEnergy = 100,
             maxFood = 100;
         
@@ -26,6 +29,8 @@ namespace VillageSim.Jobs
 
         protected float baseEnergyDrain = 1,
             baseFoodDrain = 2;
+
+        protected float currentJobQueryTime;
 
         protected Animator animator;
 
@@ -143,6 +148,11 @@ namespace VillageSim.Jobs
 
         public override void MoveTo(WorldObject target)
         {
+            if (target == null)
+            {
+                AskForJob();
+                return;
+            }
             base.MoveTo(target);
             animator.SetTrigger("Walk");
         }
@@ -162,9 +172,14 @@ namespace VillageSim.Jobs
         protected override void Update()
         {
             base.Update();
-            if ((JobState == Job.State.NoWork || JobType == Job.Type.Idle) && Input.GetKeyDown(KeyCode.A))
+            if ((JobState == Job.State.NoWork || JobType == Job.Type.Idle))
             {
-                AskForJob();
+                currentJobQueryTime += Time.deltaTime;
+                if (currentJobQueryTime >= jobQueryTime)
+                {
+                    currentJobQueryTime = 0.0f;
+                    AskForJob();
+                }
             }
             StatAdjustement();
         }

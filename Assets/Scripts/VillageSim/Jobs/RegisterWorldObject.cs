@@ -8,11 +8,6 @@
         protected override void Awake()
         {
             base.Awake();
-            if (JobManager.instanceExists)
-            {
-                Register();
-                hasRegistered = true;
-            }
         }
 
         protected virtual void Start()

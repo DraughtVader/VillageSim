@@ -19,6 +19,10 @@ namespace Pathing
 
 		public virtual void MoveTo(WorldObject target)
 		{
+			if (target == null)
+			{
+				return;
+			}
 			targetObject = target;
 			if (targetObject.Point == positionPoint)
 			{

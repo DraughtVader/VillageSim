@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using VillageSim.Buildings;
 using VillageSim.Jobs;
 
 namespace Buildings

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: BuildingData
   m_EditorClassIdentifier: 
   buildingInfos:
-  - name: Wood Storage
+  - name: Lumberjack Hut
+    description: Allows for 2 extra lumberjacks
     icon: {fileID: 21300000, guid: 008f15bd7c04e8d409f0ff5056a24919, type: 3}
     resourcesRequired:
     - Type: 0
@@ -20,3 +21,19 @@ MonoBehaviour:
     - Type: 2
       Requirement: 2
     prefab: {fileID: 114837916204914080, guid: 42e43ca6fe4f3e64aa63ddc4d668eb86, type: 2}
+  - name: Food Cart
+    description: Allows for 2 extra foragers
+    icon: {fileID: 21300000, guid: 75cf9f271f858644ea7deff9356ecada, type: 3}
+    resourcesRequired:
+    - Type: 0
+      Requirement: 4
+    prefab: {fileID: 114950361253135212, guid: 2d18fa114566d3344ae9a6fd4715e982, type: 2}
+  - name: Stone Storage
+    description: Allows for 1 extra miner
+    icon: {fileID: 21300000, guid: 502f581b149bd774a9df69f670480cde, type: 3}
+    resourcesRequired:
+    - Type: 0
+      Requirement: 3
+    - Type: 2
+      Requirement: 3
+    prefab: {fileID: 114531373904997736, guid: e1b01be6165f91446b6779e0f55effef, type: 2}

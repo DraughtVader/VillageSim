@@ -22,6 +22,9 @@ namespace VillageSim.Buildings
 	{
 		[SerializeField]
 		protected string name;
+
+		[SerializeField]
+		protected string description;
 		
 		[SerializeField]
 		protected Sprite icon;
@@ -35,6 +38,11 @@ namespace VillageSim.Buildings
 		public string Name
 		{
 			get { return name; }
+		}
+		
+		public string Description
+		{
+			get { return description; }
 		}
 
 		public Sprite Icon

@@ -22,7 +22,7 @@ namespace VillageSim.UI
         public void UpdateInfo()
         {
             jobTitle.text = string.Format("{0}s", job.JobType);
-            jobCount.text = string.Format("{0}/{1}", job.CurrentWorkers, job.DesiredWorkers);
+            jobCount.text = string.Format("{0}/{1}({2})", job.CurrentWorkers, job.DesiredWorkers, job.SupportedWorkers);
         }
 
         public void PlusButton()

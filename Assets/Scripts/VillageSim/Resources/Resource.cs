@@ -65,5 +65,23 @@ namespace VillageSim.Resources
         public Collectable.Type Type;
         public int Requirement;
         public int Current { get; set; }
+
+        public int StillRequired
+        {
+            get { return Requirement - Current; }
+        }
+
+        public ResourceAmount(Collectable.Type type, int requirement, int current)
+        {
+            Type = type;
+            Requirement = requirement;
+            Current = current;
+        }
+        
+        public ResourceAmount(ResourceAmount toCopy)
+        {
+            Type = toCopy.Type;
+            Requirement = toCopy.Requirement;
+        }
     }
 }

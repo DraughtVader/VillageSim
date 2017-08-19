@@ -1,19 +1,51 @@
 ﻿using System.Collections.Generic;
+using Buildings;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VillageSim.Jobs;
 using VillageSim.Resources;
+using VillageSim.UI;
 
-namespace Buildings
+namespace VillageSim.Buildings
 {
-	public class ConstructionSite : TimedRegisterObject
+	public class ConstructionSite : TimedRegisterObject, IPointerClickHandler, IBuilding
 	{
-		[SerializeField]
 		protected WorldObject buildingPrefab;
-
-		[SerializeField]
-		protected List<ResourceAmount> buildingResources;
-
+		protected ResourceAmount[] buildingResources;
 		protected List<ConstructionDropOff> dropOffs;
+		protected BuildingInfo buildingInfo;
+
+		public string Name
+		{
+			get { return buildingInfo.Name; }
+		}
+
+		public string Description
+		{
+			get { return buildingInfo.Description; }
+		}
+
+		public ResourceAmount[] ResourcesRequired
+		{
+			get { return buildingResources; }
+		}
+
+		public void SetUp(BuildingInfo info)
+		{
+			buildingInfo = info;
+			buildingPrefab = info.Prefab;
+			//we need to clone this otherwise same buildings share resouces
+			int length = info.ResourcesRequired.Length;
+			buildingResources = new ResourceAmount[length];
+			for (int i = 0; i < length; i++)
+			{
+				buildingResources[i] = new ResourceAmount(info.ResourcesRequired[i]);
+			}
+			foreach (var buildingResource in buildingResources)
+			{
+				buildingResource.Current = 0;
+			}
+		}
 		
 		/// <summary>
 		/// Returns a required resource for construction
@@ -31,6 +63,19 @@ namespace Buildings
 				}
 				return Collectable.Type.None;
 			}
+		}
+
+		public List<Collectable.Type> RequiredResources()
+		{
+			var list = new List<Collectable.Type>();
+			foreach (var buildingResource in buildingResources)
+			{
+				if (buildingResource.Current < buildingResource.Requirement)
+				{
+					list.Add(buildingResource.Type);
+				}
+			}
+			return list;
 		}
 
 		public bool RequiresResource(Collectable.Type type)
@@ -109,5 +154,11 @@ namespace Buildings
 			}
 			base.Destroy();
 		}
+
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			BuildingManagementUi.instance.OpenBuildingInfoPanel(this);
+		}
+
 	}
 }

@@ -32,8 +32,12 @@ namespace VillageSim.Jobs
         [SerializeField]
         protected string animationTrigger;
 
+        [SerializeField]
+        protected int startingSupportedWorkers;
+
         private int currentWorkers;
         private int desiredWorkers;
+        private int supportedWorkers;
 
         public Type JobType
         {
@@ -78,6 +82,26 @@ namespace VillageSim.Jobs
                 desiredWorkers = value;
                 JobItemUi.UpdateInfo();
             }
+        }
+        
+        public int SupportedWorkers
+        {
+            get { return supportedWorkers; }
+            set 
+            { 
+                if (value < 0)
+                {
+                    return;
+                }
+                supportedWorkers = value;
+                JobItemUi.UpdateInfo();
+            }
+        }
+
+        public void SetUp()
+        {
+            supportedWorkers = startingSupportedWorkers;
+            JobItemUi.UpdateInfo();
         }
     }
 }

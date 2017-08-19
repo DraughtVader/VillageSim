@@ -201,7 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8573e3fad8409b86f8356600fa386f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToHarvest: 5
+  timeToWork: 5
+  maxConcurrentWorkers: 0
   collectablesToSpawn: {fileID: 114932041653282970, guid: 53c2fda32dae9a9439673d07cec870e1,
     type: 2}
   numberOfCollectablesToSpawn: 3
