@@ -7,6 +7,7 @@ namespace VillageSim
 		[SerializeField]
 		protected TextAsset namesFile;
 
+		[HideInInspector]
 		protected string[] names; 
 
 		public string GetRandomName()

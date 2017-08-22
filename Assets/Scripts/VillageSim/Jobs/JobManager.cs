@@ -252,7 +252,7 @@ namespace VillageSim.Jobs
 			{
 				return true;
 			}
-			return current.SupportedWorkers < current.CurrentWorkers;
+			return current.DesiredWorkers < current.CurrentWorkers;
 		}
 
 		private Job GetMostDesiredJob()
