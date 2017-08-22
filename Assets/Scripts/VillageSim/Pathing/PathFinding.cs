@@ -22,6 +22,9 @@ namespace PathFind
     */
     public class Pathfinding
     {
+        static readonly List<Node> openSet = new List<Node>();
+        static readonly HashSet<Node> closedSet = new HashSet<Node>();
+        
         // The API you should use to get path
         // grid: grid to search in.
         // startPos: starting position.
@@ -49,8 +52,8 @@ namespace PathFind
             Node startNode = grid.nodes[startPos.x, startPos.y];
             Node targetNode = grid.nodes[targetPos.x, targetPos.y];
 
-            List<Node> openSet = new List<Node>();
-            HashSet<Node> closedSet = new HashSet<Node>();
+            openSet.Clear();
+            closedSet.Clear();
             openSet.Add(startNode);
 
             while (openSet.Count > 0)
