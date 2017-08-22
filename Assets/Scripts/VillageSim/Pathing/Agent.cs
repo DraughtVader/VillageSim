@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using PathFind;
 using VillageSim.Jobs;
 using UnityEngine;
 using VillageSim.Pathing;
@@ -25,13 +26,11 @@ namespace Pathing
 				return;
 			}
 			targetObject = target;
-			if (targetObject.Point == positionPoint)
+			if (targetObject.Point != positionPoint)
 			{
-				OnReachTargetPoint();
-				return;
+				path = map.FindPath(positionPoint, targetObject.Point);
 			}
 			isPathing = true;
-			path = map.FindPath(positionPoint, targetObject.Point);
 		}
 
 
@@ -61,8 +60,8 @@ namespace Pathing
 				lastDirection = direction;
 			}
 
-			positionPoint.X = (int) transform.position.x;
-			positionPoint.Y = (int) transform.position.y;
+			positionPoint.x = (int) transform.position.x;
+			positionPoint.y = (int) transform.position.y;
 		}
 
 		protected virtual void OnReachTargetPoint()

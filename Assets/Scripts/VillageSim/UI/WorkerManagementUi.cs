@@ -20,6 +20,7 @@ namespace VillageSim.UI
 			foreach (var job in jobs)
 			{
 				var item = Instantiate(jobItemPrefab, content);
+				item.transform.localScale = Vector3.one;
 				item.SetUp(job);
 			}
 		}

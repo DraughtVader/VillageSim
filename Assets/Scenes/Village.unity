@@ -361,6 +361,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1828982675625750, guid: a69edd4071118ad438af5f77e57d57d1, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a69edd4071118ad438af5f77e57d57d1, type: 2}
   m_IsPrefabParent: 0
@@ -429,7 +433,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: -238122429
   m_SortingOrder: 10
   m_TargetDisplay: 0
@@ -1152,6 +1156,10 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.y
       value: 26.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1333731849184442, guid: 7ecb11b67ff4f444287c074cbd8326d6, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7ecb11b67ff4f444287c074cbd8326d6, type: 2}

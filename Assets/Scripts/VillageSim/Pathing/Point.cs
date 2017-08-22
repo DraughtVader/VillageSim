@@ -1,56 +1,118 @@
-﻿using System;
+﻿
 using UnityEngine;
 
-namespace Pathing
+namespace PathFind
 {
-    [Serializable]
+    /**
+    * A 2d point on the grid
+    */
     public class Point
     {
-        public int X, Y;
+        public int x;
+        public int y;
 
-        public Point(int x, int y)
+        public Point()
         {
-            X = x;
-            Y = y;
+            x = 0;
+            y = 0;
+        }
+        public Point(int iX, int iY)
+        {
+            this.x = iX;
+            this.y = iY;
+        }
+
+        public Point(Point b)
+        {
+            x = b.x;
+            y = b.y;
         }
         
         public Point(float x, float y)
         {
-            X = (int)x;
-            Y = (int)y;
+            this.x = (int)x;
+            this.y = (int)y;
         }
 
+        public override int GetHashCode()
+        {
+            return x ^ y;
+        }
+
+        public override bool Equals(System.Object obj)
+        {
+            // Unlikely to compare incorrect type so removed for performance
+            // if (!(obj.GetType() == typeof(PathFind.Point)))
+            //     return false;
+            Point p = (Point)obj;
+
+            if (ReferenceEquals(null, p))
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return (x == p.x) && (y == p.y);
+        }
+
+        public bool Equals(Point p)
+        {
+            if (ReferenceEquals(null, p))
+            {
+                return false;
+            }
+            // Return true if the fields match:
+            return (x == p.x) && (y == p.y);
+        }
+
+        public static bool operator ==(Point a, Point b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (ReferenceEquals(a, b))
+            {
+                return true;
+            }
+            if (ReferenceEquals(null, a))
+            {
+                return false;
+            }
+            if (ReferenceEquals(null, b))
+            {
+                return false;
+            }
+            // Return true if the fields match:
+            return a.x == b.x && a.y == b.y;
+        }
+        
         public Vector2 Normalized
         {
-            get { return (new Vector2(X, Y)).normalized; }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("({0},{1})", X, Y);
-        }
-
-        public bool Equals(Point point)
-        {
-            return (point.X == X && point.Y == Y);
+            get { return (new Vector2(x, y)).normalized; }
         }
         
-        public static Point operator +(Point p1, Point p2)  
-        {  
-            return new Point(p1.X + p2.X, p1.Y + p2.Y);  
-        } 
-        
-        public static Point operator -(Point p1, Point p2)  
-        {  
-            return new Point(p1.X - p2.X, p1.Y - p2.Y);  
+        public static Point operator -(Point a, Point b)
+        {
+            return new Point(a.x-b.x, a.y-b.y);
+        }
+
+        public static bool operator !=(Point a, Point b)
+        {
+            return !(a == b);
+        }
+
+        public Point Set(int iX, int iY)
+        {
+            this.x = iX;
+            this.y = iY;
+            return this;
         }
     }
-
+    
     public static class ExtensionMethods
     {
         public static Vector2 ToVector2(this Point point)
         {
-            return new Vector2(point.X, point.Y);
+            return new Vector2(point.x, point.y);
         }
     }
+
 }

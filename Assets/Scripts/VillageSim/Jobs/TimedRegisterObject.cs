@@ -52,15 +52,15 @@ namespace VillageSim.Jobs
 			currentTime += Time.deltaTime * currentNumberWorkers;
 			if (currentTime >= timeToWork)
 			{
-				OnWorkComplete();
+				currentNumberWorkers = 0;
 				currentTime = 0;
+				OnWorkComplete();
 
 				if (WorkComplete != null)
 				{
 					WorkComplete();
 				}
 				WorkComplete = null;
-				currentNumberWorkers = 0;
 			}
 		}
 
