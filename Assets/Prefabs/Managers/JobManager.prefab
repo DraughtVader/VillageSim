@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4853745265036558}
   - component: {fileID: 114249667012833734}
+  - component: {fileID: 114305844493174086}
   m_Layer: 0
   m_Name: JobManager
   m_TagString: Untagged
@@ -55,17 +56,26 @@ MonoBehaviour:
   - type: 0
     rightArmTool: {fileID: 21300000, guid: 34578cab3c248ed42941fadd188de9ea, type: 3}
     animationTrigger: RightArmSwing
-    startingSupportedWorkers: 1
   - type: 1
     rightArmTool: {fileID: 21300000, guid: 21ed7567cdaa5534db948ab7590c5bad, type: 3}
     animationTrigger: Gather
-    startingSupportedWorkers: 1
   - type: 2
     rightArmTool: {fileID: 21300000, guid: 64b73a03b9523914eabb4bb99b708e8e, type: 3}
     animationTrigger: RightArmSwing
-    startingSupportedWorkers: 1
   - type: 3
-    rightArmTool: {fileID: 21300000, guid: 64b73a03b9523914eabb4bb99b708e8e, type: 3}
+    rightArmTool: {fileID: 21300000, guid: 04060f39bf9478345870da19435226b0, type: 3}
     animationTrigger: RightArmSwing
-    startingSupportedWorkers: 1
   workerManagementUi: {fileID: 0}
+  villagerGenerator: {fileID: 114305844493174086}
+--- !u!114 &114305844493174086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1531278974742794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583b17d9172d94e4f986642245d90f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  namesFile: {fileID: 4900000, guid: b95862186e477b54280fb9e1f5446e63, type: 3}

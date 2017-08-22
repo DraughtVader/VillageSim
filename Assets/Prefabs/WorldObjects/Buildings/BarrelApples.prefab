@@ -37,6 +37,7 @@ GameObject:
   - component: {fileID: 4081680984539574}
   - component: {fileID: 114950361253135212}
   - component: {fileID: 114721389467235752}
+  - component: {fileID: 114210540265877164}
   m_Layer: 0
   m_Name: BarrelApples
   m_TagString: Untagged
@@ -71,6 +72,19 @@ Transform:
   m_Father: {fileID: 4081680984539574}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114210540265877164
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184469497937878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1983d9a253a7fcf44bf5181f88b43faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  job: 1
+  increase: 2
 --- !u!114 &114721389467235752
 MonoBehaviour:
   m_ObjectHideFlags: 1

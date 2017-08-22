@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4855017465599500}
   - component: {fileID: 114837916204914080}
   - component: {fileID: 114306925994897962}
+  - component: {fileID: 114262597629860904}
+  - component: {fileID: 114099670169940210}
   m_Layer: 0
   m_Name: LumberjackHut
   m_TagString: Untagged
@@ -71,6 +73,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114099670169940210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651158709837882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98045032e1c1ad040a78f2de9b07ff22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSize: 2
+  ySize: 2
+--- !u!114 &114262597629860904
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651158709837882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1983d9a253a7fcf44bf5181f88b43faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  job: 0
+  increase: 2
 --- !u!114 &114306925994897962
 MonoBehaviour:
   m_ObjectHideFlags: 1

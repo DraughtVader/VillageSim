@@ -15,7 +15,7 @@ namespace VillageSim.UI
         public void SetUp(Job jobToAssign)
         {
             job = jobToAssign;
-            job.JobItemUi = this;
+            job.SetUp(this);
             UpdateInfo();
         }
 

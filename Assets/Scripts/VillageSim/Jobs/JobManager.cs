@@ -13,12 +13,20 @@ namespace VillageSim.Jobs
 
 		[SerializeField]
 		protected WorkerManagementUi workerManagementUi;
+
+		[SerializeField]
+		protected VillagerGenerator villagerGenerator;
 		
 		protected Dictionary<Collectable.Type, List<Collectable>> collectables = new Dictionary<Collectable.Type, List<Collectable>>();
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();
 		protected Dictionary<Collectable.Type, List<DropOffLocation>> dropOffLocations = new Dictionary<Collectable.Type, List<DropOffLocation>>();
 		protected Dictionary<Collectable.Type, List<PickUpLocation>> pickUpLocations = new Dictionary<Collectable.Type, List<PickUpLocation>>();
 		protected List<ConstructionSite> constructionSites = new List<ConstructionSite>();
+
+		public VillagerGenerator VillagerGenerator
+		{
+			get { return villagerGenerator; }
+		}
 		
         public void OpenWorkerInfo(Worker worker)
         {
@@ -141,6 +149,15 @@ namespace VillageSim.Jobs
 			return GetAvailable(worker, pickUpLocations, type);
 		}
 		
+		public void IncreaseJobLimit(Job.Type job, int increase)
+		{
+			var jobInfo = GetJobInfo(job);
+			if (jobInfo != null)
+			{
+				jobInfo.SupportedWorkers += increase;
+			}
+		}
+		
 		public WorldObject GetJob(Worker worker)
 		{
 			if (CanChangeJob(worker.JobType))
@@ -219,6 +236,15 @@ namespace VillageSim.Jobs
 			return null;
 		}
 
+		public void RemoveWorker(Job.Type jobType)
+		{
+			var job = GetJobInfo(jobType);
+			if (job != null)
+			{
+				job.CurrentWorkers--;
+			}
+		}
+
 		private bool CanChangeJob(Job.Type currentJob)
 		{
 			Job current = GetJobInfo(currentJob);
@@ -226,7 +252,7 @@ namespace VillageSim.Jobs
 			{
 				return true;
 			}
-			return current.DesiredWorkers <= current.CurrentWorkers;
+			return current.SupportedWorkers <= current.CurrentWorkers;
 		}
 
 		private Job GetMostDesiredJob()
@@ -235,6 +261,10 @@ namespace VillageSim.Jobs
 			Job mostRequired = null;
 			foreach (var job in jobs)
 			{
+				if (job.CurrentWorkers >= job.SupportedWorkers)
+				{
+					continue;
+				}
 				int currentRequirement = job.DesiredWorkers - job.CurrentWorkers;
 				if (currentRequirement > requirement)
 				{
@@ -248,10 +278,6 @@ namespace VillageSim.Jobs
 		private void Start()
 		{
 			workerManagementUi.SetUp(jobs);
-			foreach (var job in jobs)
-			{
-				job.SetUp();
-			}
 		}
 
 		private Job GetJobInfo(Job.Type type)

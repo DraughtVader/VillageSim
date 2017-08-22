@@ -2,7 +2,6 @@
 using VillageSim.Resources;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
 
 namespace VillageSim.Jobs
 {
@@ -27,10 +26,13 @@ namespace VillageSim.Jobs
         protected float energy = 100,
             food = 100;
 
+        [SerializeField]
         protected float baseEnergyDrain = 1,
             baseFoodDrain = 2;
 
         protected float currentJobQueryTime;
+
+        protected bool isDying;
 
         protected Animator animator;
 
@@ -109,6 +111,10 @@ namespace VillageSim.Jobs
 
         protected void AskForJob()
         {
+            if (isDying)
+            {
+                return;
+            }
             if (!JobManager.instanceExists)
             {
                 return;
@@ -157,6 +163,31 @@ namespace VillageSim.Jobs
             animator.SetTrigger("Walk");
         }
 
+        public void OnDieAnimationComplete()
+        {
+            Destroy(gameObject);
+        }
+
+        protected void Die()
+        {
+            isDying = true;
+            animator.SetTrigger("Die");
+            JobManager.instance.RemoveWorker(JobType);
+            GetComponent<Collider2D>().enabled = false;
+            DropItem();
+        }
+
+        protected void DropItem()
+        {
+            if (HeldItem != null)
+            {
+                HeldItem.transform.parent = null;
+                HeldItem.CollectableState = Collectable.State.InWorld;
+                HeldItem.DropOffLocation = null;
+                HeldItem = null;
+            }
+        }
+        
         protected override void Awake()
         {
             base.Awake();
@@ -166,11 +197,15 @@ namespace VillageSim.Jobs
         protected void Start()
         {
             JobType = Job.Type.Idle;
-            Name = "Name: " + UnityEngine.Random.value.ToString("f2");
+            Name = JobManager.instance.VillagerGenerator.GetRandomName();
         }
 
         protected override void Update()
         {
+            if (isDying)
+            {
+                return;
+            }
             base.Update();
             if ((JobState == Job.State.NoWork || JobType == Job.Type.Idle))
             {
@@ -188,6 +223,10 @@ namespace VillageSim.Jobs
         {
             energy -= baseEnergyDrain * Time.deltaTime;
             food -= baseFoodDrain * Time.deltaTime;
+            if (food < 0)
+            {
+                Die();
+            }
         }
 
         public void AssignJob(Job job)

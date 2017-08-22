@@ -72,6 +72,18 @@ namespace Pathing
             IsWalkable = isWalkable;
             H = GetTraversalCost(Location, endLocation);
             G = 0;
+            
+            Adjacencies = new[]
+            {
+                new Point(Location.X-1, Location.Y-1),
+                new Point(Location.X-1, Location.Y+1),
+                new Point(Location.X+1, Location.Y+1),
+                new Point(Location.X+1, Location.Y-1),
+                new Point(Location.X-1, Location.Y  ),
+                new Point(Location.X,   Location.Y+1),
+                new Point(Location.X+1, Location.Y  ),
+                new Point(Location.X,   Location.Y-1),
+            };
         }
         
         //If this constructor is used SetUpEndNode must be called before the node is used

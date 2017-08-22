@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Pathing;
 
-namespace Pathing
+namespace VillageSim.Pathing
 {
     public class PathFinder
     {
@@ -10,19 +11,29 @@ namespace Pathing
         private Node startNode;
         private Node endNode;
 
+        public Node[,] Nodes
+        {
+            get { return nodes; }
+        }
+
 
         public PathFinder(bool[,] map)
         {
             InitializeNodes(map);
         }
 
+        public void UpdateNodeWalkable(int x, int y, bool isWalkable)
+        {
+            nodes[x, y].IsWalkable = isWalkable;
+        }
+        
         /// <summary>
         /// Attempts to find a path from the start location to the end location based on the supplied SearchParameters
         /// </summary>
         /// <returns>A List of Points representing the path. If no path was found, the returned list is empty.</returns>
-        public List<Point> FindPath(Point startPoint, Point endPoint, bool[,] map)
+        public List<Point> FindPath(Point startPoint, Point endPoint)
         {
-            //InitializeNodes(map, endPoint);
+            //InitializeNodes(map);
             SetupNodes(endPoint);
             startNode = nodes[startPoint.X, startPoint.Y];
             startNode.State = NodeState.Open;

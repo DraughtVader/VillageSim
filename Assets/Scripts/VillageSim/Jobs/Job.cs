@@ -32,9 +32,6 @@ namespace VillageSim.Jobs
         [SerializeField]
         protected string animationTrigger;
 
-        [SerializeField]
-        protected int startingSupportedWorkers;
-
         private int currentWorkers;
         private int desiredWorkers;
         private int supportedWorkers;
@@ -44,7 +41,7 @@ namespace VillageSim.Jobs
             get { return type; }
         }
 
-        public JobItemUI JobItemUi { get; set; }
+        public JobItemUI JobItemUi { get; protected set; }
         
         public Sprite RightArmTool
         {
@@ -66,7 +63,10 @@ namespace VillageSim.Jobs
                     return;
                 }
                 currentWorkers = value; 
-                JobItemUi.UpdateInfo();
+                if (JobItemUi != null)
+                {
+                    JobItemUi.UpdateInfo();
+                }
             }
         }
 
@@ -80,7 +80,10 @@ namespace VillageSim.Jobs
                     return;
                 }
                 desiredWorkers = value;
-                JobItemUi.UpdateInfo();
+                if (JobItemUi != null)
+                {
+                    JobItemUi.UpdateInfo();
+                }
             }
         }
         
@@ -94,13 +97,16 @@ namespace VillageSim.Jobs
                     return;
                 }
                 supportedWorkers = value;
-                JobItemUi.UpdateInfo();
+                if (JobItemUi != null)
+                {
+                    JobItemUi.UpdateInfo();
+                }
             }
         }
 
-        public void SetUp()
+        public void SetUp(JobItemUI ui)
         {
-            supportedWorkers = startingSupportedWorkers;
+            JobItemUi = ui;
             JobItemUi.UpdateInfo();
         }
     }

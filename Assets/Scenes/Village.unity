@@ -199,6 +199,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114946855493486372, guid: 04430c4df436504488d1d1228c878a60,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04430c4df436504488d1d1228c878a60, type: 2}
   m_IsPrefabParent: 0
@@ -454,6 +459,48 @@ Transform:
   m_PrefabParentObject: {fileID: 4721329730879490, guid: 04430c4df436504488d1d1228c878a60,
     type: 2}
   m_PrefabInternal: {fileID: 245277053}
+--- !u!1 &647628914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 647628916}
+  - component: {fileID: 647628915}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &647628915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 647628914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98045032e1c1ad040a78f2de9b07ff22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSize: 10
+  ySize: 1
+--- !u!4 &647628916
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 647628914}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6, y: 7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &672344662
 Prefab:
   m_ObjectHideFlags: 0
@@ -646,7 +693,7 @@ Prefab:
     - target: {fileID: 224066163757954986, guid: 462e990c1ceac864e87daab4787f1e0c,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: -270.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114109176090567546, guid: 462e990c1ceac864e87daab4787f1e0c,
         type: 2}
@@ -701,6 +748,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1651158709837882, guid: 42e43ca6fe4f3e64aa63ddc4d668eb86, type: 2}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114099670169940210, guid: 42e43ca6fe4f3e64aa63ddc4d668eb86,
+        type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1016,8 +1068,18 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1068346675891746, guid: baecb6d8d943e50418bbbba5bb8d345d, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1977756413086540, guid: baecb6d8d943e50418bbbba5bb8d345d, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212053296808183380, guid: baecb6d8d943e50418bbbba5bb8d345d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a2d74fcf51c06b649ae5b2f3ef487afa,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: baecb6d8d943e50418bbbba5bb8d345d, type: 2}
   m_IsPrefabParent: 0
@@ -1282,6 +1344,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1977756413086540, guid: baecb6d8d943e50418bbbba5bb8d345d, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212053296808183380, guid: baecb6d8d943e50418bbbba5bb8d345d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5499bbdf3bf112c46a922680dfd074c8,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: baecb6d8d943e50418bbbba5bb8d345d, type: 2}
   m_IsPrefabParent: 0

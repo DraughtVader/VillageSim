@@ -36,6 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4279349639580300}
   - component: {fileID: 114531373904997736}
+  - component: {fileID: 114942622253434388}
   m_Layer: 0
   m_Name: StoneStorage
   m_TagString: Untagged
@@ -83,6 +84,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectableType: 2
   pickUpLocation: {fileID: 0}
+--- !u!114 &114942622253434388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1755207781288476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1983d9a253a7fcf44bf5181f88b43faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  job: 2
+  increase: 1
 --- !u!212 &212050146313905866
 SpriteRenderer:
   m_ObjectHideFlags: 1
