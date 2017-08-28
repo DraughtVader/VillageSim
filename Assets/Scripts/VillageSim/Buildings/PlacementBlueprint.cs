@@ -1,5 +1,5 @@
-﻿using Buildings;
-using UnityEngine;
+﻿using UnityEngine;
+using VillageSim.Pathing;
 
 namespace VillageSim.Buildings
 {
@@ -12,6 +12,7 @@ namespace VillageSim.Buildings
         protected ConstructionSite constructionSitePrefab;
 
         private BuildingInfo buildingInfo;
+        private bool validPlacement;
         
         public void SetUp(BuildingInfo building)
         {
@@ -31,9 +32,13 @@ namespace VillageSim.Buildings
             position.x = (int)position.x;
             position.y = (int)position.y;
             transform.position = position;
+            
+            //check for valid placement
+            validPlacement = MapManager.instance.IsAreaWalkable((int) position.x, (int) position.y, 2, 2);
+            spriteRenderer.color = validPlacement ? Color.green : Color.red;
 
-
-            if (Input.GetMouseButton(0))
+            
+            if (Input.GetMouseButton(0) && validPlacement)
             {
                 var constructionSite = Instantiate(constructionSitePrefab, position, Quaternion.identity);
                 constructionSite.SetUp(buildingInfo);

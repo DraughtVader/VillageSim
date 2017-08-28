@@ -13,20 +13,12 @@ namespace VillageSim.Jobs
 
 		[SerializeField]
 		protected WorkerManagementUi workerManagementUi;
-
-		[SerializeField]
-		protected VillagerGenerator villagerGenerator;
 		
 		protected Dictionary<Collectable.Type, List<Collectable>> collectables = new Dictionary<Collectable.Type, List<Collectable>>();
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();
 		protected Dictionary<Collectable.Type, List<DropOffLocation>> dropOffLocations = new Dictionary<Collectable.Type, List<DropOffLocation>>();
 		protected Dictionary<Collectable.Type, List<PickUpLocation>> pickUpLocations = new Dictionary<Collectable.Type, List<PickUpLocation>>();
 		protected List<ConstructionSite> constructionSites = new List<ConstructionSite>();
-
-		public VillagerGenerator VillagerGenerator
-		{
-			get { return villagerGenerator; }
-		}
 		
         public void OpenWorkerInfo(Worker worker)
         {

@@ -1,5 +1,6 @@
 ﻿using Core.Utilities;
 using UnityEngine;
+using UnityEngine.UI;
 using VillageSim.Buildings;
 
 namespace VillageSim.UI
@@ -21,6 +22,11 @@ namespace VillageSim.UI
 		[SerializeField]
 		protected BuildingInfoDisplay buildingInfoDisplay;
 
+		[SerializeField]
+		protected Text housingText;
+
+		private int currentHousing;
+
 		protected void Start () 
 		{
 			foreach (var building in buildingData.BuildingInfo)
@@ -28,6 +34,12 @@ namespace VillageSim.UI
 				var button = Instantiate(buildingButtonPrefab, content);
 				button.SetUp(building, this);
 			}
+		}
+
+		public void AdjustHousing(int value)
+		{
+			currentHousing += value;
+			housingText.text = currentHousing.ToString();
 		}
 
 		public void CreateBuildingBlueprint(BuildingInfo buildingInfo)

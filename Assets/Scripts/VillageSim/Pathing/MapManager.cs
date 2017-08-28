@@ -14,23 +14,42 @@ namespace VillageSim.Pathing
         protected int width = 10, height = 10;
         
         private bool[,] map;
-        private Grid grid;        
+        private Grid grid;
+
+        public bool IsNodeWalkable(int x, int y)
+        {
+            return grid.nodes[x, y].walkable;
+        }
+
+        public bool IsAreaWalkable(int xPos, int yPos, int sizeX, int sizeY)
+        {
+            for (int x = 0; x < sizeX; x++)
+            {
+                for (int y = 0; y < sizeY; y++)
+                {
+                    if (!IsNodeWalkable(x + xPos, y + yPos))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         
         public List<Point> FindPath(Point startPoint, Point endPoint)
         {
             return Pathfinding.FindPath(grid, startPoint, endPoint);
         }
 
-        public void RegisterBlocker(int xPos, int yPos, int sizeX, int sizeY)
+        public void SetAreaWalkable(int xPos, int yPos, int sizeX, int sizeY, bool walkable)
         {
             for (int x = 0; x < sizeX; x++)
             {
                 for (int y = 0; y < sizeY; y++)
                 {
-                    grid.nodes[xPos+x, yPos+y].walkable = false;
+                    grid.nodes[xPos+x, yPos+y].walkable = walkable;
                 }
             }
-            
         }
         
         protected override void Awake()
@@ -63,11 +82,15 @@ namespace VillageSim.Pathing
                 Gizmos.DrawLine(new Vector3(0, y-0.5f, 0), new Vector3(width, y-0.5f, 0));
             }
 
-            foreach (var node in grid.nodes)
+            if (Application.isPlaying)
             {
-                if (!node.walkable)
+                foreach (var node in grid.nodes)
                 {
-                    Vector3 pos = new Vector3(node.gridX, node.gridY);
+                    if (node.walkable)
+                    {
+                        continue;
+                    }
+                    var pos = new Vector3(node.gridX, node.gridY);
                     Gizmos.DrawIcon(pos, "Cross.png", true);
                 }
             }

@@ -105,6 +105,9 @@ GameObject:
   - component: {fileID: 114069135213084242}
   - component: {fileID: 114512018749351146}
   - component: {fileID: 114946855493486372}
+  - component: {fileID: 114824607111796778}
+  - component: {fileID: 114338941757778862}
+  - component: {fileID: 114926695236478552}
   m_Layer: 0
   m_Name: VillageHeart
   m_TagString: Untagged
@@ -447,7 +450,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1306402124540848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: 5, z: 0}
+  m_LocalPosition: {x: 12, y: 5.043, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4173062041832074}
@@ -571,6 +574,18 @@ MonoBehaviour:
   healthyFireEmissionRate: 50
   autoFeedPoint: 0.25
   woodHealthIncrease: 50
+--- !u!114 &114338941757778862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306402124540848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa379e41d4ae41f4d963e026eb3f559d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  villagerGenerator: {fileID: 114926695236478552}
 --- !u!114 &114358767456229814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -610,6 +625,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   job: 0
   increase: 1
+--- !u!114 &114824607111796778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306402124540848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e42c607fe391c2441932e007b69c427b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  increase: 3
+--- !u!114 &114926695236478552
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1306402124540848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 583b17d9172d94e4f986642245d90f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  namesFile: {fileID: 4900000, guid: b95862186e477b54280fb9e1f5446e63, type: 3}
 --- !u!114 &114946855493486372
 MonoBehaviour:
   m_ObjectHideFlags: 1

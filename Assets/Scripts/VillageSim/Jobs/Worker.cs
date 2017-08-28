@@ -197,7 +197,7 @@ namespace VillageSim.Jobs
         protected void Start()
         {
             JobType = Job.Type.Idle;
-            Name = JobManager.instance.VillagerGenerator.GetRandomName();
+            Name = VillageManager.instance.VillagerGenerator.GetRandomName();
         }
 
         protected override void Update()

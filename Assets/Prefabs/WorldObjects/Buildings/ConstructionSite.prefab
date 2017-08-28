@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4440553309399564}
   - component: {fileID: 114496618144320440}
   - component: {fileID: 61915874602277820}
+  - component: {fileID: 114678198405714814}
   m_Layer: 0
   m_Name: ConstructionSite
   m_TagString: Untagged
@@ -51,8 +52,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1988097155222276}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 14, y: 14, z: 1}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 4440553309399564}
   m_RootOrder: 0
@@ -64,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1785269973880422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.525331, y: 3.9692001, z: 0}
+  m_LocalPosition: {x: 1, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4310508415039280}
@@ -109,6 +110,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToWork: 5
   maxConcurrentWorkers: -1
+--- !u!114 &114678198405714814
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1785269973880422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98045032e1c1ad040a78f2de9b07ff22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xSize: 2
+  ySize: 2
 --- !u!212 &212091753493030652
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -141,8 +155,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7475d2eb48f593944babefed5e0a1241, type: 3}
+  m_Color: {r: 0.6911765, g: 0.6911765, b: 0.6911765, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

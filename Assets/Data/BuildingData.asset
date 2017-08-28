@@ -37,3 +37,12 @@ MonoBehaviour:
     - Type: 2
       Requirement: 3
     prefab: {fileID: 114531373904997736, guid: e1b01be6165f91446b6779e0f55effef, type: 2}
+  - name: Stone House
+    description: Provides housing for 4
+    icon: {fileID: 21300000, guid: 72a1c2aee67a94645804df15844a5969, type: 3}
+    resourcesRequired:
+    - Type: 0
+      Requirement: 2
+    - Type: 2
+      Requirement: 5
+    prefab: {fileID: 114198195426717496, guid: 7d669ec2900b70641971625bbdcacd69, type: 2}

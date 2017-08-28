@@ -29,16 +29,25 @@ namespace PathFind
         // grid: grid to search in.
         // startPos: starting position.
         // targetPos: ending position.
-        public static List<Point> FindPath(Grid grid, Point startPos, Point targetPos)
+        public static List<Point> FindPath(Grid grid, Point startPos, Point targetPos, bool makeTargetWalkable = true)
         {
             // find path
-            List<Node> nodes_path = _ImpFindPath(grid, startPos, targetPos);
-
+            var targetNode = grid.nodes[targetPos.x, targetPos.y];
+            var targetWalkable = targetNode.walkable;
+            if (makeTargetWalkable)
+            {
+                targetNode.walkable = true;
+            }
+            
+            List<Node> nodesPath = _ImpFindPath(grid, startPos, targetPos);
+            
+            targetNode.walkable = targetWalkable;
+            
             // convert to a list of points and return
             List<Point> ret = new List<Point>();
-            if (nodes_path != null)
+            if (nodesPath != null)
             {
-                foreach (Node node in nodes_path)
+                foreach (Node node in nodesPath)
                 {
                     ret.Add(new Point(node.gridX, node.gridY));
                 }

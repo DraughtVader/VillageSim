@@ -9,10 +9,18 @@ namespace VillageSim.Pathing
 		
 		private void Start () 
 		{
-			MapManager.instance.RegisterBlocker((int)transform.position.x,
-				(int)transform.position.y, xSize, ySize);
+			MapManager.instance.SetAreaWalkable((int)transform.position.x,
+				(int)transform.position.y, xSize, ySize, false);
 		}
 
+		private void OnDestroy()
+		{
+			if (MapManager.instanceExists)
+			{
+				MapManager.instance.SetAreaWalkable((int)transform.position.x,
+					(int)transform.position.y, xSize, ySize, true);
+			}
+		}
 
 		private void OnDrawGizmosSelected()
 		{

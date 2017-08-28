@@ -29,6 +29,11 @@ namespace Pathing
 			if (targetObject.Point != positionPoint)
 			{
 				path = map.FindPath(positionPoint, targetObject.Point);
+				if (path.Count == 0)
+				{
+					targetObject = null;
+					return;
+				}
 			}
 			isPathing = true;
 		}
@@ -44,6 +49,7 @@ namespace Pathing
 					OnReachTargetPoint();
 					return;
 				}
+				
 				if (positionPoint.Equals(path[0]))
 				{
 					path = map.FindPath(positionPoint, targetObject.Point);
