@@ -586,6 +586,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   villagerGenerator: {fileID: 114926695236478552}
+  newArrivalTimeRange:
+    min: 10
+    max: 20
+  villagerPrefab: {fileID: 114568719183931612, guid: baecb6d8d943e50418bbbba5bb8d345d,
+    type: 2}
 --- !u!114 &114358767456229814
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -649,6 +654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   namesFile: {fileID: 4900000, guid: b95862186e477b54280fb9e1f5446e63, type: 3}
+  data: {fileID: 11400000, guid: d3cf7b0a1b05b514a841450f1f31a503, type: 2}
 --- !u!114 &114946855493486372
 MonoBehaviour:
   m_ObjectHideFlags: 1

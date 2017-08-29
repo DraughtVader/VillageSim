@@ -1,7 +1,9 @@
-﻿using Pathing;
+﻿using System;
+using Pathing;
 using VillageSim.Resources;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 namespace VillageSim.Jobs
 {
@@ -30,19 +32,27 @@ namespace VillageSim.Jobs
         protected float baseEnergyDrain = 1,
             baseFoodDrain = 2;
 
+        [SerializeField]
+        protected SpriteRenderer hairSpriteRenderer, 
+            facialHairSpriteRenderer, 
+            leftBrowSpriteRenderer, 
+            rightBrowSpriteRenderer;
+
         protected float currentJobQueryTime;
-
         protected bool isDying;
-
         protected Animator animator;
-
         protected Job currentJob;
-
-        public Job.Type JobType { get; set; }
         
+        public float Constitution  { get; protected set; }
+        public float Skill { get; protected set; }
+        public Job.Type JobType { get; set; }
         public Job.State JobState { get; protected set; }
-
         public Collectable HeldItem { get; set; }
+
+        public float MoveSpeedModifier
+        {
+            get { return moveSpeedModifier; }
+        }
 
         public float NormalizedFood
         {
@@ -63,6 +73,14 @@ namespace VillageSim.Jobs
             {
                 //idle
             }
+        }
+
+        public void SetUpHair(Sprite hair, Sprite facialHair, Color color)
+        {
+            hairSpriteRenderer.sprite = hair;
+            facialHairSpriteRenderer.sprite = facialHair;
+            hairSpriteRenderer.color = facialHairSpriteRenderer.color =
+                leftBrowSpriteRenderer.color = rightBrowSpriteRenderer.color = color;
         }
         
         public void OnJobComplete()
@@ -162,10 +180,32 @@ namespace VillageSim.Jobs
             base.MoveTo(target);
             animator.SetTrigger("Walk");
         }
+        
+        public void AssignJob(Job job)
+        {
+            JobType = job.JobType;
+            currentJob = job;
+            rightArmAccessory.sprite = job.RightArmTool;
+        }
+
+        public void StartJob()
+        {
+            animator.SetTrigger(currentJob.AnimationTrigger);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            JobManager.instance.OpenWorkerInfo(this);
+        }
 
         public void OnDieAnimationComplete()
         {
             Destroy(gameObject);
+        }
+
+        public void SetName(string villagerName)
+        {
+            Name = villagerName;
         }
 
         protected void Die()
@@ -175,6 +215,7 @@ namespace VillageSim.Jobs
             JobManager.instance.RemoveWorker(JobType);
             GetComponent<Collider2D>().enabled = false;
             DropItem();
+            VillageManager.instance.DeregisterVillager(this);
         }
 
         protected void DropItem()
@@ -198,6 +239,29 @@ namespace VillageSim.Jobs
         {
             JobType = Job.Type.Idle;
             Name = VillageManager.instance.VillagerGenerator.GetRandomName();
+            VillageManager.instance.VillagerGenerator.SetUpRandomVillager(this);
+            VillageManager.instance.RegisterVillager(this);
+
+            float r0 = Random.Range(-0.25f, 0.25f),
+                  r1 = Random.Range(-0.25f, 0.25f),
+                  r2 = - (r0 + r1);
+
+            if (Random.value < 0.34)
+            {
+                float temp = r2;
+                r2 = r0;
+                r0 = temp;
+            }
+            else if (Random.value < 0.67)
+            {
+                float temp = r2;
+                r2 = r1;
+                r1 = temp;
+            }
+
+            moveSpeedModifier = 1 + r0;
+            Skill = 1 + r1;
+            Constitution = 1 + r2;
         }
 
         protected override void Update()
@@ -221,29 +285,12 @@ namespace VillageSim.Jobs
 
         protected void StatAdjustement()
         {
-            energy -= baseEnergyDrain * Time.deltaTime;
-            food -= baseFoodDrain * Time.deltaTime;
+            energy -= baseEnergyDrain * Time.deltaTime * ( 1 / Constitution);
+            food -= baseFoodDrain * Time.deltaTime * (1 / Constitution);
             if (food < 0)
             {
                 Die();
             }
-        }
-
-        public void AssignJob(Job job)
-        {
-            JobType = job.JobType;
-            currentJob = job;
-            rightArmAccessory.sprite = job.RightArmTool;
-        }
-
-        public void StartJob()
-        {
-            animator.SetTrigger(currentJob.AnimationTrigger);
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            JobManager.instance.OpenWorkerInfo(this);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Pathing
 
 		protected Point positionPoint;
 		protected Vector3 lastDirection;
+		protected float moveSpeedModifier = 1;
 
 		public virtual void MoveTo(WorldObject target)
 		{
@@ -55,9 +56,9 @@ namespace Pathing
 					path = map.FindPath(positionPoint, targetObject.Point);
 				}
 				Vector3 direction = (path[0] - positionPoint).Normalized;
-				transform.position += direction * Time.deltaTime * moveSpeed;
+				transform.position += direction * Time.deltaTime * moveSpeed * moveSpeedModifier;
 
-				if (Mathf.Sign(direction.x) != Mathf.Sign(lastDirection.x))
+				if ((int)Mathf.Sign(direction.x) != (int)Mathf.Sign(lastDirection.x))
 				{
 					var scale = transform.localScale;
 					scale.x *= -1;

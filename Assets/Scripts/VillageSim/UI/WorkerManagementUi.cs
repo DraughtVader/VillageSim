@@ -29,5 +29,10 @@ namespace VillageSim.UI
         {
             workerInfoDisplay.OpenPanel(worker);
         }
+		
+		public void CloseWorkerInfo()
+		{
+			workerInfoDisplay.ClosePanel();
+		}
 	}
 }

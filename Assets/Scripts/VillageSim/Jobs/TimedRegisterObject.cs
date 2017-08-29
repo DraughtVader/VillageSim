@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace VillageSim.Jobs
@@ -14,8 +16,14 @@ namespace VillageSim.Jobs
 		protected int maxConcurrentWorkers;
 		
 		private float currentTime;
-		private int currentNumberWorkers;
+
+		private int currentNumberWorkers
+		{
+			get { return currentWorkers.Count; }
+		}
 		private int workersEnRoute;
+
+		private readonly List<float> currentWorkers = new List<float>();
 		
 		public void AddWorkerEnRouter()
 		{
@@ -34,7 +42,7 @@ namespace VillageSim.Jobs
 			if (maxConcurrentWorkers == -1 || currentNumberWorkers < maxConcurrentWorkers)
 			{
 				WorkComplete += worker.OnJobComplete;
-				currentNumberWorkers++;
+				currentWorkers.Add(worker.Skill);
 				workersEnRoute--;
 			}
 			else
@@ -49,10 +57,10 @@ namespace VillageSim.Jobs
 			{
 				return;
 			}
-			currentTime += Time.deltaTime * currentNumberWorkers;
+			currentTime += Time.deltaTime * currentWorkers.Sum();
 			if (currentTime >= timeToWork)
 			{
-				currentNumberWorkers = 0;
+				currentWorkers.Clear();
 				currentTime = 0;
 				OnWorkComplete();
 

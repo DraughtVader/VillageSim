@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Utilities;
 using VillageSim.UI;
 using UnityEngine;
@@ -8,6 +9,8 @@ namespace VillageSim.Jobs
 {
 	public class JobManager : Singleton<JobManager>
 	{
+		public event Action OpenInfoPanel;
+		
 		[SerializeField]
 		protected List<Job> jobs;
 
@@ -23,6 +26,10 @@ namespace VillageSim.Jobs
         public void OpenWorkerInfo(Worker worker)
         {
             workerManagementUi.OpenWorkerInfo(worker);
+	        if (OpenInfoPanel != null)
+	        {
+		        OpenInfoPanel();
+	        }
         }
 		
 		public void Register(RegisterWorldObject registerable, Collectable.Type type)
@@ -270,6 +277,12 @@ namespace VillageSim.Jobs
 		private void Start()
 		{
 			workerManagementUi.SetUp(jobs);
+			BuildingManagementUi.instance.OpenInfoPanel += OnOpenBuildingInfoPanel;
+		}
+
+		private void OnOpenBuildingInfoPanel()
+		{
+			workerManagementUi.CloseWorkerInfo();
 		}
 
 		private Job GetJobInfo(Job.Type type)

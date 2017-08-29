@@ -12,7 +12,10 @@ namespace VillageSim.UI
         protected Text nameText, jobText;
 
         [SerializeField]
-        protected Image foodBar;
+        protected Image foodBar,
+            skillBar,
+            speedBar,
+            consitutionBar;
 
         private Canvas canvas;
         private Worker currentWorker;
@@ -24,6 +27,12 @@ namespace VillageSim.UI
 
             nameText.text = worker.Name;
             jobText.text = worker.JobType.ToString();
+        }
+
+        public void ClosePanel()
+        {
+            canvas.enabled = false;
+            currentWorker = null;
         }
 
         private void Start()
@@ -39,6 +48,10 @@ namespace VillageSim.UI
             }
             foodBar.fillAmount = currentWorker.NormalizedFood;
             foodBar.color = GetColorBar(currentWorker.NormalizedFood);
+
+            skillBar.fillAmount = currentWorker.Skill * 0.5f;
+            speedBar.fillAmount = currentWorker.MoveSpeedModifier * 0.5f;
+            consitutionBar.fillAmount = currentWorker.Constitution * 0.5f;
         }
 
         private Color GetColorBar(float value)

@@ -47,5 +47,10 @@ namespace VillageSim.UI
             canvas = GetComponent<Canvas>();
             SetPanelOpen(false);
         }
+
+        public void ClosePanel()
+        {
+            SetPanelOpen(false);
+        }
     }
 }

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8816e763c54469641ac38294948dca8d, type: 3}
+  m_Name: VillagerData
+  m_EditorClassIdentifier: 
+  hairDos:
+  - {fileID: 0}
+  - {fileID: 21300000, guid: e44bb8c69a426a841a4af9884fed5205, type: 3}
+  - {fileID: 21300000, guid: c7de918ae6c75c541ad38f975344d641, type: 3}
+  - {fileID: 21300000, guid: bffc8d1aca8a10a43ab4f450ede67db9, type: 3}
+  - {fileID: 21300000, guid: a1a75ff856ac048478ff80ef0c13bc5a, type: 3}
+  - {fileID: 21300000, guid: c5b32b23b3f48b74abaafc1a3d3faf1e, type: 3}
+  - {fileID: 21300000, guid: e742afd9bdd0b3c4cb45c9f18b51891c, type: 3}
+  facialHairs:
+  - {fileID: 0}
+  - {fileID: 21300000, guid: 94ced7c9e812d234ca26cd238e80465d, type: 3}
+  - {fileID: 21300000, guid: 50ad39c0faf8cb1409f50b5676b2fee9, type: 3}
+  - {fileID: 21300000, guid: 184126125b234054b92b574c74a457e1, type: 3}
+  hairColours:
+  - {r: 0.22352943, g: 0.14901961, b: 0.09411766, a: 1}
+  - {r: 1, g: 0.84827584, b: 0.35294116, a: 1}
+  - {r: 1, g: 0.2580122, b: 0.13235295, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.38235295, g: 0.38235295, b: 0.38235295, a: 1}
+  - {r: 0.49264705, g: 0.3328615, b: 0.21009947, a: 1}
+  - {r: 0.8161765, g: 0.66254324, b: 0.46810123, a: 1}
