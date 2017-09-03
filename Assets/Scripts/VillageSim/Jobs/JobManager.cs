@@ -21,6 +21,7 @@ namespace VillageSim.Jobs
 		protected Dictionary<Collectable.Type, List<HarvestLocation>> harvestLocations = new Dictionary<Collectable.Type, List<HarvestLocation>>();
 		protected Dictionary<Collectable.Type, List<DropOffLocation>> dropOffLocations = new Dictionary<Collectable.Type, List<DropOffLocation>>();
 		protected Dictionary<Collectable.Type, List<PickUpLocation>> pickUpLocations = new Dictionary<Collectable.Type, List<PickUpLocation>>();
+		protected Dictionary<Collectable.Type, List<Refinery>> refineries = new Dictionary<Collectable.Type, List<Refinery>>();
 		protected List<ConstructionSite> constructionSites = new List<ConstructionSite>();
 		
         public void OpenWorkerInfo(Worker worker)
@@ -62,6 +63,12 @@ namespace VillageSim.Jobs
 			if (pickupLocation != null)
 			{
 				RegisterWorldObject(pickupLocation, pickUpLocations, type);
+				return;
+			}
+			var refinery = registerable as Refinery;
+			if (refinery != null)
+			{
+				RegisterWorldObject(refinery, refineries, refinery.CollectableType);
 			}
 		}
 		
@@ -95,6 +102,12 @@ namespace VillageSim.Jobs
 			if (pickupLocation != null)
 			{
 				DeregisterWorldObject(pickupLocation, pickUpLocations, type);
+				return;
+			}
+			var refinery = registerable as Refinery;
+			if (refinery != null)
+			{
+				DeregisterWorldObject(refinery, refineries, refinery.CollectableType);
 			}
 		}
 
@@ -122,7 +135,7 @@ namespace VillageSim.Jobs
 		{
 			if (worker.JobType == Job.Type.Builder)
 			{
-				foreach (var constructionSite in constructionSites)
+				foreach (ConstructionSite constructionSite in constructionSites)
 				{
 					if (constructionSite.RequiresResource(type))
 					{
@@ -131,6 +144,20 @@ namespace VillageSim.Jobs
 				}
 				Debug.LogError("Shits fucked");
 				return null;
+			}
+			if (Job.IsJobRefiner(worker.JobType))
+			{
+				var allRefineries = refineries[GetResourceForJob(worker.JobType)];
+				foreach (var refinery in allRefineries)
+				{
+					foreach (var resource in refinery.RequiredResources())
+					{
+						if (resource == type)
+						{
+							return refinery.GetDropOffLocation(type);
+						}
+					}
+				}	
 			}
 			return GetAvailable(worker, dropOffLocations, type);
 		}
@@ -206,8 +233,27 @@ namespace VillageSim.Jobs
 				}
 				return null;
 			}
-			
+
 			var collectableType = GetResourceForJob(worker.JobType);
+			if (Job.IsJobRefiner(worker.JobType))
+			{
+				var refinery = GetAvailable(worker, refineries, collectableType);
+				if (refinery != null)
+				{
+					return refinery;
+				}
+				var resourceRequiringRefinery = GetRefineryForJob(worker);
+				foreach (var resource in resourceRequiringRefinery.ResourcesRequired)
+				{
+					if (resource.StillRequired > 0)
+					{
+						var refineryCollectable = GetAvailable(worker, collectables, resource.Type);
+						return refineryCollectable;
+					}
+				}
+				return null;
+			}
+			
 			if (collectableType == Collectable.Type.None)
 			{
 				return null;
@@ -297,6 +343,12 @@ namespace VillageSim.Jobs
 			return null;
 		}
 
+		private Refinery GetRefineryForJob(Worker worker)
+		{
+			var appropRefineries = refineries[GetResourceForJob(worker.JobType)];
+			return appropRefineries[0];
+		}
+
 		public static Collectable.Type GetResourceForJob(Job.Type jobType)
 		{
 			switch (jobType)
@@ -307,6 +359,8 @@ namespace VillageSim.Jobs
 					return Collectable.Type.Food;
 				case Job.Type.StoneMiner:
 					return Collectable.Type.Stone;
+				case Job.Type.Carpenter:
+					return Collectable.Type.RefinedWood;
 				default:
 					return Collectable.Type.None;
 			}

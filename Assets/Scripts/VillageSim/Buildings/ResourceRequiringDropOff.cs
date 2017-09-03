@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
-using VillageSim.Buildings;
 using VillageSim.Jobs;
 
-namespace Buildings
+namespace VillageSim.Buildings
 {
-    public class ConstructionDropOff : DropOffLocation
+    public class ResourceRequiringDropOff : DropOffLocation
     {
         [SerializeField]
-        protected ConstructionSite constructionSite;
+        protected ResourceRequiringTimedObject resourceRequiringObject;
 
         private bool completed;
 
         public override void DropOff(Collectable collectable)
         {
             Destroy(collectable.gameObject);
-            constructionSite.DropOff(collectable.CollectableType, this);
+            resourceRequiringObject.DropOff(collectable.CollectableType, this);
         }
 
-        public void SetUp(Collectable.Type type, ConstructionSite site)
+        public void SetUp(Collectable.Type type, ResourceRequiringTimedObject site)
         {
             collectableType = type;
-            constructionSite = site;
+            resourceRequiringObject = site;
         }
 
         public void Complete()

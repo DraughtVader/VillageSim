@@ -19,6 +19,7 @@ namespace VillageSim.Jobs
             Wood,
             Food,
             Stone,
+            RefinedWood,
             Special,
             None
         }

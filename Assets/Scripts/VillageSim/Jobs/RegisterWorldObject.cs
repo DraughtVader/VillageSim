@@ -5,11 +5,6 @@
         protected bool hasRegistered;
         public abstract Collectable.Type CollectableType { get; }
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
         protected virtual void Start()
         {
             if (!hasRegistered && JobManager.instance)

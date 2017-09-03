@@ -13,6 +13,7 @@ namespace VillageSim.Jobs
             Forager,
             StoneMiner,
             Builder,
+            Carpenter,
             Idle
         }
 
@@ -108,6 +109,12 @@ namespace VillageSim.Jobs
         {
             JobItemUi = ui;
             JobItemUi.UpdateInfo();
+        }
+
+
+        public static bool IsJobRefiner(Type type)
+        {
+            return type == Type.Carpenter;
         }
     }
 }
