@@ -30,10 +30,13 @@ namespace VillageSim.UI
             {
                 Destroy(resourcePanel.GetChild(i).gameObject);
             }
-            foreach (ResourceAmount resource in currentBuildingInfo.ResourcesRequired)
+            if (currentBuildingInfo.ResourcesRequired != null)
             {
-                var resourceDisplay = Instantiate(resourceAmountDisplayPrefab, resourcePanel);
-                resourceDisplay.SetUp(resource.StillRequired.ToString(), ResourceManager.instance.GetResource(resource.Type).Icon);
+                foreach (ResourceAmount resource in currentBuildingInfo.ResourcesRequired)
+                {
+                    var resourceDisplay = Instantiate(resourceAmountDisplayPrefab, resourcePanel);
+                    resourceDisplay.SetUp(resource.StillRequired.ToString(), ResourceManager.instance.GetResource(resource.Type).Icon);
+                }
             }
         }
 
@@ -51,6 +54,14 @@ namespace VillageSim.UI
         public void ClosePanel()
         {
             SetPanelOpen(false);
+        }
+
+        public void UpdateBuildingInfo(IBuilding building)
+        {
+            if (currentBuildingInfo == building)
+            {
+                OpenPanel(building);
+            }
         }
     }
 }

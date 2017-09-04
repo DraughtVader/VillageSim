@@ -27,6 +27,8 @@ MonoBehaviour:
     resourcesRequired:
     - Type: 0
       Requirement: 4
+    - Type: 3
+      Requirement: 2
     prefab: {fileID: 114950361253135212, guid: 2d18fa114566d3344ae9a6fd4715e982, type: 2}
   - name: Stone Storage
     description: Allows for 1 extra miner
@@ -46,3 +48,12 @@ MonoBehaviour:
     - Type: 2
       Requirement: 5
     prefab: {fileID: 114198195426717496, guid: 7d669ec2900b70641971625bbdcacd69, type: 2}
+  - name: Carpenter
+    description: Allows for 1 carpenter, refines wood
+    icon: {fileID: 21300000, guid: 9027be04b5a9a39459e6aed095af001e, type: 3}
+    resourcesRequired:
+    - Type: 0
+      Requirement: 7
+    - Type: 2
+      Requirement: 3
+    prefab: {fileID: 114465923882212592, guid: 624cf9f44e6428f46870f67128a44fff, type: 2}

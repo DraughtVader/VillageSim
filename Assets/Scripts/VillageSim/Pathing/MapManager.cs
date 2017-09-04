@@ -18,6 +18,14 @@ namespace VillageSim.Pathing
 
         public bool IsNodeWalkable(int x, int y)
         {
+            if (x < 0 || x >= width)
+            {
+                return false;
+            }
+            if (y < 0 || y >= height)
+            {
+                return false;
+            }
             return grid.nodes[x, y].walkable;
         }
 

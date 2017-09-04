@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using VillageSim.Jobs;
 using VillageSim.Resources;
@@ -7,6 +8,9 @@ namespace VillageSim.Buildings
 {
 	public abstract class ResourceRequiringTimedObject : TimedRegisterObject
 	{
+		public event Action DroppedOff;
+		public event Action TimeComplete;
+		
 		protected List<ResourceRequiringDropOff> dropOffs;
 		
 		[SerializeField]
@@ -66,8 +70,9 @@ namespace VillageSim.Buildings
 			return null;
 		}
 
-		public void DropOff(Collectable.Type collectable, ResourceRequiringDropOff dropOff)
+		public virtual void DropOff(Collectable.Type collectable, ResourceRequiringDropOff dropOff)
 		{
+
 			foreach (var buildingResource in resourcesRequired)
 			{
 				if (buildingResource.Type != collectable)
@@ -80,8 +85,20 @@ namespace VillageSim.Buildings
 				{
 					dropOff.Complete();
 				}
+				if (DroppedOff != null)
+				{
+					DroppedOff();
+				}
 				return;
 			}
+		}
+
+		protected override void OnWorkComplete()
+		{
+			if (TimeComplete != null)
+			{
+				TimeComplete();
+			}		
 		}
 
 		protected override void Destroy()

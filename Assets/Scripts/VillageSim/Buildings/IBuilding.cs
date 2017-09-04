@@ -8,6 +8,5 @@ namespace VillageSim.Buildings
         string Name { get; }
         string Description { get; }
         ResourceAmount[] ResourcesRequired { get; }
-       // Action ResourcesChanged { get; }
     }
 }

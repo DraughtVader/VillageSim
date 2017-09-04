@@ -1,6 +1,8 @@
 ﻿
+using System;
 using UnityEngine;
 using VillageSim.Jobs;
+using Random = UnityEngine.Random;
 
 namespace VillageSim.Buildings
 {
@@ -19,6 +21,7 @@ namespace VillageSim.Buildings
 
 		protected override void OnWorkComplete()
 		{
+			base.OnWorkComplete();
 			for (int i = 0; i < numberOfCollectablesToSpawn; i++)
 			{
 				Instantiate(productPrefab, transform.position + (Vector3)Random.insideUnitCircle, Quaternion.identity);

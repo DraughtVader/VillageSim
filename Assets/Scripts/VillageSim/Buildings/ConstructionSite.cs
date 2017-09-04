@@ -7,7 +7,7 @@ using VillageSim.UI;
 
 namespace VillageSim.Buildings
 {
-	public class ConstructionSite : ResourceRequiringTimedObject, IBuilding
+	public class ConstructionSite : ResourceRequiringTimedObject, IBuilding, IPointerClickHandler
 	{
 		protected WorldObject buildingPrefab;
 		protected BuildingInfo buildingInfo;
@@ -61,10 +61,22 @@ namespace VillageSim.Buildings
 				buildingResource.Current = 0;
 			}
 		}
-		
+
+		public override void DropOff(Collectable.Type collectable, ResourceRequiringDropOff dropOff)
+		{
+			base.DropOff(collectable, dropOff);
+			BuildingManagementUi.instance.UpdateBuildingInfo(this);
+		}
+
 		protected override void OnWorkComplete()
 		{
-			Instantiate(buildingPrefab, transform.position, Quaternion.identity);
+			base.OnWorkComplete();
+			var builtWorldObject = Instantiate(buildingPrefab, transform.position, Quaternion.identity);
+			var building = builtWorldObject.GetComponent<Building>();
+			if (building != null)
+			{
+				building.SetUp(buildingInfo);
+			}
 			foreach (var buildingResource in resourcesRequired)
 			{
 				var surplus = buildingResource.Current - buildingResource.Requirement;

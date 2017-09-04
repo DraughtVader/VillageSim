@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using VillageSim.Pathing;
 
 namespace VillageSim.Buildings
@@ -37,8 +38,9 @@ namespace VillageSim.Buildings
             validPlacement = MapManager.instance.IsAreaWalkable((int) position.x, (int) position.y, 2, 2);
             spriteRenderer.color = validPlacement ? Color.green : Color.red;
 
-            
-            if (Input.GetMouseButton(0) && validPlacement)
+
+            bool ui = EventSystem.current.currentSelectedGameObject != null;
+            if (Input.GetMouseButton(0) && validPlacement && !ui)
             {
                 var constructionSite = Instantiate(constructionSitePrefab, position, Quaternion.identity);
                 constructionSite.SetUp(buildingInfo);

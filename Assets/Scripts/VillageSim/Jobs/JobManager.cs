@@ -235,24 +235,6 @@ namespace VillageSim.Jobs
 			}
 
 			var collectableType = GetResourceForJob(worker.JobType);
-			if (Job.IsJobRefiner(worker.JobType))
-			{
-				var refinery = GetAvailable(worker, refineries, collectableType);
-				if (refinery != null)
-				{
-					return refinery;
-				}
-				var resourceRequiringRefinery = GetRefineryForJob(worker);
-				foreach (var resource in resourceRequiringRefinery.ResourcesRequired)
-				{
-					if (resource.StillRequired > 0)
-					{
-						var refineryCollectable = GetAvailable(worker, collectables, resource.Type);
-						return refineryCollectable;
-					}
-				}
-				return null;
-			}
 			
 			if (collectableType == Collectable.Type.None)
 			{
@@ -272,6 +254,27 @@ namespace VillageSim.Jobs
 					return collectable;
 				}
 			}
+			
+			if (Job.IsJobRefiner(worker.JobType))
+			{
+				var refinery = GetAvailable(worker, refineries, collectableType);
+				if (refinery != null)
+				{
+					return refinery;
+				}
+				var resourceRequiringRefinery = GetRefineryForJob(worker);
+				foreach (var resource in resourceRequiringRefinery.ResourcesRequired)
+				{
+					if (resource.StillRequired > 0)
+					{
+						var refineryCollectable = GetCollectableOrPickUpLocation(worker, resource.Type);
+						return refineryCollectable;
+					}
+				}
+				return null;
+			}
+			
+
 			var harvestLocation = GetAvailable(worker, harvestLocations, collectableType);
 			if (harvestLocation != null)
 			{

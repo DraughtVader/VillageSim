@@ -15,10 +15,22 @@ namespace VillageSim.Buildings
 		{
 			get { return buildingInfos; }
 		}
+
+		public BuildingInfo GetBuildingInfo(string buildingName)
+		{
+			foreach (var building in buildingInfos)
+			{
+				if (building.Name == buildingName)
+				{
+					return building;
+				}
+			}
+			return null;
+		}
 	}
 
 	[Serializable]
-	public class BuildingInfo
+	public class BuildingInfo : IBuilding
 	{
 		[SerializeField]
 		protected string name;

@@ -37,6 +37,11 @@ GameObject:
   - component: {fileID: 4307902846792866}
   - component: {fileID: 114584386785831308}
   - component: {fileID: 114465923882212592}
+  - component: {fileID: 61756654797134036}
+  - component: {fileID: 114530456997206712}
+  - component: {fileID: 114857352820934068}
+  - component: {fileID: 114680503930294678}
+  - component: {fileID: 114884421617040860}
   m_Layer: 0
   m_Name: Carpenter
   m_TagString: Untagged
@@ -51,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1377740119623720}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.54, y: 5.49, z: 0}
+  m_LocalPosition: {x: 16, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4345158461710828}
@@ -71,6 +76,31 @@ Transform:
   m_Father: {fileID: 4307902846792866}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61756654797134036
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1377740119623720}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!114 &114465923882212592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,14 +114,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToWork: 5
   maxConcurrentWorkers: 2
-  dropOffs:
-  - {fileID: 0}
   resourcesRequired:
   - Type: 0
     Requirement: 2
   productPrefab: {fileID: 114404967887961800, guid: dbe0fe92533f5c946bc85b50eab18b62,
     type: 2}
   numberOfCollectablesToSpawn: 1
+--- !u!114 &114530456997206712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1377740119623720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb14bb3083b4f11924943ddbe74b41b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectableType: 3
+  pickUpLocation: {fileID: 114857352820934068}
 --- !u!114 &114584386785831308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -105,6 +146,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 2
   ySize: 2
+--- !u!114 &114680503930294678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1377740119623720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c61b39f51d5b444a8a3946ba3f39c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingName: Carpenter
+--- !u!114 &114857352820934068
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1377740119623720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb6dc3161a743679d96a6aadfd03a7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectablePrefab: {fileID: 114404967887961800, guid: dbe0fe92533f5c946bc85b50eab18b62,
+    type: 2}
+--- !u!114 &114884421617040860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1377740119623720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1983d9a253a7fcf44bf5181f88b43faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  job: 4
+  increase: 1
 --- !u!212 &212478312255061362
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -137,8 +216,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 72a1c2aee67a94645804df15844a5969, type: 3}
-  m_Color: {r: 1, g: 0.68275857, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9027be04b5a9a39459e6aed095af001e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

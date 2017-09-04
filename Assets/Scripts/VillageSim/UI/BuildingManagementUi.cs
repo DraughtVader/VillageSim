@@ -51,6 +51,7 @@ namespace VillageSim.UI
 		public void CreateBuildingBlueprint(BuildingInfo buildingInfo)
 		{
 			placementBlueprint.SetUp(buildingInfo);
+			OpenBuildingInfoPanel(buildingInfo);
 		}
 
 		public void OpenBuildingInfoPanel(IBuilding building)
@@ -75,6 +76,16 @@ namespace VillageSim.UI
 		private void OnOpenBuildingPanel()
 		{
 			buildingInfoDisplay.ClosePanel();
+		}
+
+		public void UpdateBuildingInfo(IBuilding building)
+		{
+			buildingInfoDisplay.UpdateBuildingInfo(building);
+		}
+
+		public BuildingInfo GetBuildingInfo(string buildingName)
+		{
+			return buildingData.GetBuildingInfo(buildingName);
 		}
 	}
 }

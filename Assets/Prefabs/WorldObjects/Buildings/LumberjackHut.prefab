@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 114306925994897962}
   - component: {fileID: 114262597629860904}
   - component: {fileID: 114099670169940210}
+  - component: {fileID: 114551345712899534}
+  - component: {fileID: 61867394994319298}
   m_Layer: 0
   m_Name: LumberjackHut
   m_TagString: Untagged
@@ -66,13 +68,38 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1651158709837882}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15, y: 4, z: 0}
+  m_LocalPosition: {x: 8, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4383127188212178}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &61867394994319298
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651158709837882}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2}
+  m_EdgeRadius: 0
 --- !u!114 &114099670169940210
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -112,6 +139,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collectablePrefab: {fileID: 114170440090453960, guid: 7fb22052bebdf9d4b86fcc5a58c4d9f6,
     type: 2}
+--- !u!114 &114551345712899534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651158709837882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b77c18d47755647b966769eed3128d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingName: Lumberjack Hut
 --- !u!114 &114837916204914080
 MonoBehaviour:
   m_ObjectHideFlags: 1
