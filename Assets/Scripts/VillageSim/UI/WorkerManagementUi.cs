@@ -15,6 +15,14 @@ namespace VillageSim.UI
         [SerializeField]
         protected WorkerInfoDisplay workerInfoDisplay;
 
+		[SerializeField]
+		protected Sprite workerEnergyRecuperationNeed;
+
+		public Sprite WorkerEnergyRecuperationNeed
+		{
+			get { return workerEnergyRecuperationNeed; }
+		}
+
 		public void SetUp(List<Job> jobs)
 		{
 			foreach (var job in jobs)

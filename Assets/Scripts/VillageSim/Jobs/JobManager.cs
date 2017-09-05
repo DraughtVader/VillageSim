@@ -23,6 +23,7 @@ namespace VillageSim.Jobs
 		protected Dictionary<Collectable.Type, List<PickUpLocation>> pickUpLocations = new Dictionary<Collectable.Type, List<PickUpLocation>>();
 		protected Dictionary<Collectable.Type, List<Refinery>> refineries = new Dictionary<Collectable.Type, List<Refinery>>();
 		protected List<ConstructionSite> constructionSites = new List<ConstructionSite>();
+		protected List<EnergyRecuperater> energyRecuperaters = new List<EnergyRecuperater>();
 		
         public void OpenWorkerInfo(Worker worker)
         {
@@ -57,6 +58,12 @@ namespace VillageSim.Jobs
 			if (constructionSite != null)
 			{
 				constructionSites.Add(constructionSite);
+				return;
+			}
+			var energyRecuperater = registerable as EnergyRecuperater;
+			if (energyRecuperater != null)
+			{
+				energyRecuperaters.Add(energyRecuperater);
 				return;
 			}
 			var pickupLocation = registerable as PickUpLocation;
@@ -98,6 +105,12 @@ namespace VillageSim.Jobs
 				constructionSites.Remove(constructionSite);
 				return;
 			}
+			var energyRecuperater = registerable as EnergyRecuperater;
+			if (energyRecuperater != null)
+			{
+				energyRecuperaters.Remove(energyRecuperater);
+				return;
+			}
 			var pickupLocation = registerable as PickUpLocation;
 			if (pickupLocation != null)
 			{
@@ -110,7 +123,6 @@ namespace VillageSim.Jobs
 				DeregisterWorldObject(refinery, refineries, refinery.CollectableType);
 			}
 		}
-
 
 		protected void RegisterWorldObject<T>(T worldObject, Dictionary<Collectable.Type, List<T>> dictionary, Collectable.Type collectableType)
 			where T : WorldObject
@@ -260,6 +272,7 @@ namespace VillageSim.Jobs
 				var refinery = GetAvailable(worker, refineries, collectableType);
 				if (refinery != null)
 				{
+					refinery.AddWorkerEnRouter();
 					return refinery;
 				}
 				var resourceRequiringRefinery = GetRefineryForJob(worker);
@@ -291,6 +304,24 @@ namespace VillageSim.Jobs
 			{
 				job.CurrentWorkers--;
 			}
+		}
+
+		public EnergyRecuperater GetEnergyRecuperater(Worker worker)
+		{
+			foreach (var energyRecuperater in energyRecuperaters)
+			{
+				if (energyRecuperater.IsAvailableToWorker(worker))
+				{
+					energyRecuperater.AddWorkerEnRouter();
+					return energyRecuperater;
+				}
+			}
+			return null;
+		}
+
+		public Sprite GetEnergyRecuperationNeedSprite()
+		{
+			return workerManagementUi.WorkerEnergyRecuperationNeed;
 		}
 
 		private bool CanChangeJob(Job.Type currentJob)

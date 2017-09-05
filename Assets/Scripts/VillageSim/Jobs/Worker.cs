@@ -58,6 +58,11 @@ namespace VillageSim.Jobs
         {
             get { return food / maxFood; }
         }
+        
+        public float NormalizedEnergy
+        {
+            get { return energy / maxEnergy; }
+        }
 
         public string Name { get; protected set; }
 
@@ -91,6 +96,22 @@ namespace VillageSim.Jobs
         public void DropOffComplete()
         {
             AskForJob();
+        }
+        
+        public void EnergyRecuperationComplete()
+        {
+            AskForJob();
+        }
+        
+        public bool RecuperateEnergy(float recuperatedEnergy)
+        {
+            energy += recuperatedEnergy;
+            return energy >= maxEnergy;
+        }
+        
+        public void StartedEnergyRecuperation()
+        {
+             needObject.SetActive(false);
         }
 
         public void PickUpItem(Collectable item)
@@ -139,7 +160,7 @@ namespace VillageSim.Jobs
             }
             
             //Check stats in case recuperation in required
-            if (food / maxFood < 0.25)
+            if (NormalizedFood < 0.25)
             {
                 needObject.SetActive(true);
                 needSprite.sprite = ResourceManager.instance.GetResource(Collectable.Type.Food).Icon;
@@ -157,7 +178,26 @@ namespace VillageSim.Jobs
                     needUnavailableSprite.SetActive(true);
                 }
             }
-            
+
+            if (NormalizedEnergy < 0.25)
+            {
+                needObject.SetActive(true);
+                needSprite.sprite = JobManager.instance.GetEnergyRecuperationNeedSprite();
+                
+                JobState = Job.State.Recuperation;
+                var energyRecuperater = JobManager.instance.GetEnergyRecuperater(this);
+                if (energyRecuperater != null)
+                {
+                    MoveTo(energyRecuperater);
+                    needUnavailableSprite.SetActive(false);
+                    return;
+                }
+                else
+                {
+                    needUnavailableSprite.SetActive(true);
+                }
+            }
+
             var jobTarget = JobManager.instance.GetJob(this);
             if (jobTarget != null)
             {

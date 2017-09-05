@@ -681,8 +681,8 @@ MonoBehaviour:
   jobQueryTime: 1
   maxEnergy: 100
   maxFood: 100
-  baseEnergyDrain: 1
-  baseFoodDrain: 2
+  baseEnergyDrain: 0.1
+  baseFoodDrain: 0.25
   hairSpriteRenderer: {fileID: 212053296808183380}
   facialHairSpriteRenderer: {fileID: 212859943218741390}
   leftBrowSpriteRenderer: {fileID: 212832906223654576}
@@ -719,7 +719,7 @@ SpriteRenderer:
   m_SortingLayerID: 806310543
   m_SortingLayer: 1
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: fe7f8413b8293a046b5c7d22e3c83d98, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e742afd9bdd0b3c4cb45c9f18b51891c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1307,7 +1307,7 @@ SpriteRenderer:
   m_SortingLayerID: 806310543
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a47b00e576283bd4fb2d3045873f3da3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 184126125b234054b92b574c74a457e1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -13,6 +13,7 @@ namespace VillageSim.UI
 
         [SerializeField]
         protected Image foodBar,
+            energyBar,
             skillBar,
             speedBar,
             consitutionBar;
@@ -48,6 +49,9 @@ namespace VillageSim.UI
             }
             foodBar.fillAmount = currentWorker.NormalizedFood;
             foodBar.color = GetColorBar(currentWorker.NormalizedFood);
+            
+            energyBar.fillAmount = currentWorker.NormalizedEnergy;
+            energyBar.color = GetColorBar(currentWorker.NormalizedEnergy);
 
             skillBar.fillAmount = currentWorker.Skill * 0.5f;
             speedBar.fillAmount = currentWorker.MoveSpeedModifier * 0.5f;

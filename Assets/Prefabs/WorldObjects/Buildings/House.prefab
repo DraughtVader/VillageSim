@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114198195426717496}
   - component: {fileID: 114326096111548134}
   - component: {fileID: 61761711262837350}
+  - component: {fileID: 114292021614491838}
   m_Layer: 0
   m_Name: House
   m_TagString: Untagged
@@ -110,6 +111,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d5d9c0717e4e4eb3a366acfdba31cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114292021614491838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1512313562943192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5c669cb4cb37d42992e28405bba008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxOccupants: 4
+  energyRecupertaionPerSecond: 10
 --- !u!114 &114326096111548134
 MonoBehaviour:
   m_ObjectHideFlags: 1
